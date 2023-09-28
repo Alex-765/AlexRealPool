@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60E142482AC4749900B405B6 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E142472AC4749900B405B6 /* MenuScene.swift */; };
 		DADDCE1B2AC45F5E005DA2F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDCE1A2AC45F5E005DA2F6 /* AppDelegate.swift */; };
 		DADDCE1D2AC45F5E005DA2F6 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DADDCE1C2AC45F5E005DA2F6 /* GameScene.sks */; };
 		DADDCE212AC45F5E005DA2F6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDCE202AC45F5E005DA2F6 /* GameScene.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		60E142472AC4749900B405B6 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		DADDCE172AC45F5E005DA2F6 /* AlexRealPool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlexRealPool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DADDCE1A2AC45F5E005DA2F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DADDCE1C2AC45F5E005DA2F6 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				DADDCE1A2AC45F5E005DA2F6 /* AppDelegate.swift */,
 				DADDCE1C2AC45F5E005DA2F6 /* GameScene.sks */,
+				60E142472AC4749900B405B6 /* MenuScene.swift */,
 				DADDCE202AC45F5E005DA2F6 /* GameScene.swift */,
 				DADDCE222AC45F5E005DA2F6 /* GameViewController.swift */,
 				DADDCE242AC45F5E005DA2F6 /* Main.storyboard */,
@@ -261,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DADDCE212AC45F5E005DA2F6 /* GameScene.swift in Sources */,
+				60E142482AC4749900B405B6 /* MenuScene.swift in Sources */,
 				DADDCE232AC45F5E005DA2F6 /* GameViewController.swift in Sources */,
 				DADDCE1B2AC45F5E005DA2F6 /* AppDelegate.swift in Sources */,
 			);
