@@ -26,6 +26,7 @@ class Ball: SKSpriteNode {
     }
 }
 
+
 class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
@@ -46,19 +47,50 @@ class GameScene: SKScene {
         let redBallTexture = SKTexture(imageNamed: "RedBall")
         let blueBallTexture = SKTexture(imageNamed: "BlueBall")
         
- 
+        // First Line of Break
+        
         for i in 0...1 {
             let redBall = Ball(texture: redBallTexture)
             redBall.position = CGPoint(x: (frame.midX + CGFloat(155)), y: (frame.midY + CGFloat(i*40)-20))
             addChild(redBall)
-            }
-        
+        }
         for i in 0...2 {
             let blueBall = Ball(texture: blueBallTexture)
             blueBall.position = CGPoint(x: (frame.midX + CGFloat(155)), y:(frame.midY + CGFloat(i*40)-40))
                 
             addChild(blueBall)
-            }
+        }
+        
+        // Second Line of Break
+        
+        for i in 0...1 {
+            let redBall = Ball(texture: redBallTexture)
+            redBall.position = CGPoint(x: (frame.midX + CGFloat(175)), y: (frame.midY + CGFloat(i*40)-10))
+            addChild(redBall)
+            let blueBall = Ball(texture: blueBallTexture)
+            blueBall.position = CGPoint(x: (frame.midX + CGFloat(175)), y:(frame.midY + CGFloat(i*40)-30))
+                
+            addChild(blueBall)
+        }
+        
+        // Third Line of Break
+        
+        for i in 0...1 {
+            let redBall = Ball(texture: redBallTexture)
+            redBall.position = CGPoint(x: (frame.midX + CGFloat(195)), y: (frame.midY + CGFloat(i*40)-20))
+            addChild(redBall)
+        }
+     
+        // Fourth Line of Break
+        
+        for i in 0...1 {
+            let blueBall = Ball(texture: blueBallTexture)
+            blueBall.position = CGPoint(x: (frame.midX + CGFloat(215)), y:(frame.midY + CGFloat(i*20)-10))
+            addChild(blueBall)
+        }
+        let redBall = Ball(texture: redBallTexture)
+        redBall.position = CGPoint(x: (frame.midX + CGFloat(235)), y: (frame.midY))
+        addChild(redBall)
         
         let cueBall = SKSpriteNode(imageNamed: "CueBall")
         let blackBall = SKSpriteNode(imageNamed: "Black Ball")
