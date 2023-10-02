@@ -41,69 +41,66 @@ class GameScene: SKScene {
         table.zPosition = -1
         addChild(table)
         
-        // Create and position red and blue balls in break position
+        // Create Red and Blue Ball Textures
 
-    
         let redBallTexture = SKTexture(imageNamed: "RedBall")
         let blueBallTexture = SKTexture(imageNamed: "BlueBall")
+        let cueBallTexture = SKTexture(imageNamed: "RedBall")
+        let blackBallTexture = SKTexture(imageNamed: "RedBall")
+
         
-        // First Line of Break
+        // Creating Break Positions
         
-        for i in 0...1 {
-            let redBall = Ball(texture: redBallTexture)
-            redBall.position = CGPoint(x: (frame.midX + CGFloat(155)), y: (frame.midY + CGFloat(i*40)-20))
-            addChild(redBall)
-        }
-        for i in 0...2 {
+        let redBallPositions: [(CGFloat, CGFloat)]  = [
+            (155, -20),
+            (155, 20),
+            (175, -10),
+            (175, 30),
+            (195, -20),
+            (195, 20),
+            (235, 0)
+        ]
+        
+        let blueBallPositions: [(CGFloat, CGFloat)]  = [
+            (155, -40),
+            (155, 0),
+            (155, 40),
+            (175, -30),
+            (175, 10),
+            (215, -10),
+            (215, 10)
+        ]
+        
+        // Placing Balls in Break Positions
+        
+        for (x,y) in blueBallPositions {
             let blueBall = Ball(texture: blueBallTexture)
-            blueBall.position = CGPoint(x: (frame.midX + CGFloat(155)), y:(frame.midY + CGFloat(i*40)-40))
-                
+            blueBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(blueBall)
         }
-        
-        // Second Line of Break
-        
-        for i in 0...1 {
+        for (x,y) in redBallPositions {
             let redBall = Ball(texture: redBallTexture)
-            redBall.position = CGPoint(x: (frame.midX + CGFloat(175)), y: (frame.midY + CGFloat(i*40)-10))
-            addChild(redBall)
-            let blueBall = Ball(texture: blueBallTexture)
-            blueBall.position = CGPoint(x: (frame.midX + CGFloat(175)), y:(frame.midY + CGFloat(i*40)-30))
-                
-            addChild(blueBall)
-        }
-        
-        // Third Line of Break
-        
-        for i in 0...1 {
-            let redBall = Ball(texture: redBallTexture)
-            redBall.position = CGPoint(x: (frame.midX + CGFloat(195)), y: (frame.midY + CGFloat(i*40)-20))
+            redBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(redBall)
         }
-     
-        // Fourth Line of Break
         
-        for i in 0...1 {
-            let blueBall = Ball(texture: blueBallTexture)
-            blueBall.position = CGPoint(x: (frame.midX + CGFloat(215)), y:(frame.midY + CGFloat(i*20)-10))
-            addChild(blueBall)
-        }
-        let redBall = Ball(texture: redBallTexture)
-        redBall.position = CGPoint(x: (frame.midX + CGFloat(235)), y: (frame.midY))
-        addChild(redBall)
+        let cueBall = Ball(texture: cueBallTexture)
+        cueBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
+        addChild(cueBall)
         
-        let cueBall = SKSpriteNode(imageNamed: "CueBall")
-        let blackBall = SKSpriteNode(imageNamed: "Black Ball")
+        let blackBall = Ball(texture: blackBallTexture)
+        blackBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
+        addChild(blackBall)
     
+        
+        
+//       Main Menu, Images
 //       Creation of Wall
         
         
         }
 }
 
-//Fix images
-//Break position
-//Screenshots
 
 
 
