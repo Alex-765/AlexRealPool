@@ -18,7 +18,7 @@ class Ball: SKSpriteNode {
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 1
+        self.physicsBody?.restitution = 0.5
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,6 +39,7 @@ class GameScene: SKScene {
         table.position = CGPoint(x: frame.midX, y: frame.midY)
         table.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         table.zPosition = -1
+        
         addChild(table)
         
         // Create Red and Blue Ball Textures
@@ -85,14 +86,15 @@ class GameScene: SKScene {
         }
         
         let cueBall = Ball(texture: cueBallTexture)
-        cueBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
+        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
         addChild(cueBall)
         
         let blackBall = Ball(texture: blackBallTexture)
-        blackBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
+        blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
-    
         
+        cueBall.physicsBody?.velocity = self.physicsBody!.velocity
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
         
 //       Main Menu, Images
 //       Creation of Wall
