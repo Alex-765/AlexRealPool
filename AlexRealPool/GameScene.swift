@@ -11,14 +11,15 @@ import SpriteKit
 class Ball: SKSpriteNode {
     // Initialize the Ball with a size of 5x5
     init(texture: SKTexture?) {
-        let size = CGSize(width: 20, height: 20) // Set the size to 5x5
+        let size = CGSize(width: 22, height: 22) // Set the size to 5x5
         
         super.init(texture: texture, color: .clear, size: size)
         self.zPosition = 1
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 0.5
+        self.physicsBody?.restitution = 1
+//        self.physicsBody?.mass = 1
     }
     
     required init?(coder aDecoder: NSCoder) {
