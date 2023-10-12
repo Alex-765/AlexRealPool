@@ -50,9 +50,7 @@ class GameScene: SKScene {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1.0
         self.physicsBody?.friction = 0.5
-        
-//        About Collisions and contacts
-        
+                
         // Table set up
         
         let table = SKSpriteNode(imageNamed: "PoolTable")
