@@ -18,6 +18,7 @@
 		DADDCE352AC45F61005DA2F6 /* AlexRealPoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDCE342AC45F61005DA2F6 /* AlexRealPoolTests.swift */; };
 		DADDCE3F2AC45F61005DA2F6 /* AlexRealPoolUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDCE3E2AC45F61005DA2F6 /* AlexRealPoolUITests.swift */; };
 		DADDCE412AC45F61005DA2F6 /* AlexRealPoolUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDCE402AC45F61005DA2F6 /* AlexRealPoolUITestsLaunchTests.swift */; };
+		DAE37DEE2AD7FE0900303650 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DAE37DED2AD7FE0800303650 /* MenuScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		DADDCE3A2AC45F61005DA2F6 /* AlexRealPoolUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlexRealPoolUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DADDCE3E2AC45F61005DA2F6 /* AlexRealPoolUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlexRealPoolUITests.swift; sourceTree = "<group>"; };
 		DADDCE402AC45F61005DA2F6 /* AlexRealPoolUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlexRealPoolUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DAE37DED2AD7FE0800303650 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				DADDCE1A2AC45F5E005DA2F6 /* AppDelegate.swift */,
 				DADDCE1C2AC45F5E005DA2F6 /* GameScene.sks */,
+				DAE37DED2AD7FE0800303650 /* MenuScene.sks */,
 				60E142472AC4749900B405B6 /* MenuScene.swift */,
 				DADDCE202AC45F5E005DA2F6 /* GameScene.swift */,
 				DADDCE222AC45F5E005DA2F6 /* GameViewController.swift */,
@@ -238,6 +241,7 @@
 				DADDCE262AC45F5E005DA2F6 /* Main.storyboard in Resources */,
 				DADDCE1D2AC45F5E005DA2F6 /* GameScene.sks in Resources */,
 				DADDCE282AC45F61005DA2F6 /* Assets.xcassets in Resources */,
+				DAE37DEE2AD7FE0900303650 /* MenuScene.sks in Resources */,
 				DADDCE2B2AC45F61005DA2F6 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

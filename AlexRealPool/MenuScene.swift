@@ -11,11 +11,13 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        let background = SKSpriteNode(color: .red, size: view.frame.size)
-        background.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        let background = SKSpriteNode(color: .cyan, size: view.frame.size)
+        background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.zPosition = -1
         addChild(background)
+        
+        let name = SKLabelNode(fontNamed: "Calibri")
         
 //
 //        let playButton = SKSpriteNode(imageNamed: "RedBall")
