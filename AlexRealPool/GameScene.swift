@@ -116,7 +116,7 @@ class GameScene: SKScene {
         addChild(blackBall)
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0.1))
+//        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0.1))
         
 //       Main Menu, Images
 //       Creation of Wall
