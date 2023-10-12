@@ -19,7 +19,7 @@ class Ball: SKSpriteNode {
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
-        self.physicsBody?.collisionBitMask = 0b0001
+//        self.physicsBody?.collisionBitMask = 0b0001
 //        self.physicsBody?.mass = 1
     }
     
@@ -49,7 +49,7 @@ class GameScene: SKScene {
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1.0
-        self.physicsBody?.friction = 0.2
+        self.physicsBody?.friction = 0.5
         
 //        About Collisions and contacts
         
@@ -75,23 +75,23 @@ class GameScene: SKScene {
         // Creating Break Positions
         
         let redBallPositions: [(CGFloat, CGFloat)]  = [
-            (155, -20),
-            (155, 20),
-            (175, -10),
-            (175, 30),
+            (235, -20),
+            (235, 20),
+            (215, -10),
+            (215, 30),
             (195, -20),
             (195, 20),
-            (235, 0)
+            (155, 0)
         ]
         
         let blueBallPositions: [(CGFloat, CGFloat)]  = [
-            (155, -40),
-            (155, 0),
-            (155, 40),
-            (175, -30),
-            (175, 10),
-            (215, -10),
-            (215, 10)
+            (235, -40),
+            (235, 0),
+            (235, 40),
+            (215, -30),
+            (215, 10),
+            (175, -10),
+            (175, 10)
         ]
         
         // Placing Balls in Break Positions
@@ -116,7 +116,7 @@ class GameScene: SKScene {
         addChild(blackBall)
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-//        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0.1))
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 3, dy: 0))
         
 //       Main Menu, Images
 //       Creation of Wall

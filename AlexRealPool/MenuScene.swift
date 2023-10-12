@@ -17,8 +17,7 @@ class MenuScene: SKScene {
         background.zPosition = -1
         addChild(background)
         
-//        let background = SKSpriteNode(imageNamed)
-//        
+//
 //        let playButton = SKSpriteNode(imageNamed: "RedBall")
 //        playButton.size = CGSize(width: 50, height: 50)
 //        playButton.position = CGPoint(x: frame.midX, y: frame.midY)
