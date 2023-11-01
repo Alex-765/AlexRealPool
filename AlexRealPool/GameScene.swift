@@ -18,9 +18,9 @@ class Ball: SKSpriteNode {
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 1
-//        self.physicsBody?.collisionBitMask = 0b0001
-//        self.physicsBody?.mass = 1
+        self.physicsBody?.restitution = 0.8
+        self.physicsBody?.collisionBitMask = 0b0001
+        self.physicsBody?.linearDamping = 0.05
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,28 +28,26 @@ class Ball: SKSpriteNode {
     }
 }
 
-//class Wall: SKPhysicsBody {
-//    init(edgeFrom p1: CGPoint,
-//         to p2: CGPoint){
-//        
-//        let point1 = CGPoint(x:800, y:100)
-//        let point2 = CGPoint(x:800, y:10)
-//        super.init(edgeFrom: point1, to: point2)
-//        
-//    }
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("Error")
-//    }
-//}
-
-
 class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+        let point1 = CGPoint(x:370, y:200)
+        let point2 = CGPoint(x:370, y:-200)
+        let point3 = CGPoint(x:-370, y: -200)
+        let point4 = CGPoint(x:370, y: -200)
+        
+//        let path = CGPath()
+        
+        self.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 1.0
-        self.physicsBody?.friction = 0.5
+        self.physicsBody?.restitution = 0.8
+        self.physicsBody?.friction = 0.0
+        self.physicsBody?.collisionBitMask = 0b0001
+        
+        let wall = SKPhysicsBody(edgeFrom: point3, to: point4)
+        wall.usesPreciseCollisionDetection = true
+        wall.restitution = 0.7
+        wall.collisionBitMask = 0b0001
                 
         // Table set up
         
@@ -114,10 +112,7 @@ class GameScene: SKScene {
         addChild(blackBall)
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 3, dy: 0))
-        
-//       Main Menu, Images
-//       Creation of Wall
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
         
         
         }
