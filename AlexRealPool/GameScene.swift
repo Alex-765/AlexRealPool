@@ -23,7 +23,7 @@ class Ball: SKSpriteNode {
         self.physicsBody?.linearDamping = 0.05
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("Error")
     }
 }
@@ -36,19 +36,22 @@ class GameScene: SKScene {
         let point3 = CGPoint(x:-370, y: -200)
         let point4 = CGPoint(x:370, y: -200)
         
-//        let path = CGPath()
         
-        self.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
-        self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 0.8
-        self.physicsBody?.friction = 0.0
-        self.physicsBody?.collisionBitMask = 0b0001
+        let wall1 = SKSpriteNode()
+        wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
+        wall1.physicsBody?.usesPreciseCollisionDetection = true
+        wall1.physicsBody?.restitution = 0.8
+        wall1.physicsBody?.collisionBitMask = 0b0001
+
         
-        let wall = SKPhysicsBody(edgeFrom: point3, to: point4)
-        wall.usesPreciseCollisionDetection = true
-        wall.restitution = 0.7
-        wall.collisionBitMask = 0b0001
-                
+        let wall2 = SKSpriteNode()
+        wall2.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
+        wall2.physicsBody?.usesPreciseCollisionDetection = true
+        wall2.physicsBody?.restitution = 0.8
+        wall2.physicsBody?.collisionBitMask = 0b0001
+
+    
+
         // Table set up
         
         let table = SKSpriteNode(imageNamed: "PoolTable")
