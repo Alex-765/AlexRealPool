@@ -22,6 +22,20 @@ class Ball: SKSpriteNode {
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.1
         self.physicsBody?.allowsRotation = false
+        
+        let velocityx = self.physicsBody?.velocity.dx
+//        if velocityx == nil{
+//            let velocityx = 0.0
+//        }
+        let velocityy = self.physicsBody?.velocity.dy
+//        if velocityy == nil{
+//            let velocityy = 0.0
+//        }
+        let speed = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
+//        if speed < 0.1 && speed > 0{
+//            self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+//            self.speed = 0
+//        }
     }
     
     required init?(coder: NSCoder) {
@@ -37,7 +51,6 @@ class GameScene: SKScene {
         let point2 = CGPoint(x:380, y:-140)
         let point3 = CGPoint(x:-380, y: 140)
         let point4 = CGPoint(x:-380, y: -140)
-
         
         let wall1 = SKNode()
         wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
@@ -68,7 +81,9 @@ class GameScene: SKScene {
         wall4.physicsBody?.collisionBitMask = 0b0001
         addChild(wall4)
         
-    
+        self.physicsBody?.restitution = 1
+        self.physicsBody?.linearDamping = 0.3
+        
 
         // Table set up
         
@@ -141,11 +156,29 @@ class GameScene: SKScene {
         addChild(blackBall)
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 1, dy: 0))
         
+        
+        let cueStickTexture = SKTexture(imageNamed: "CueStick")
+        let cueStick = SKSpriteNode(texture: cueStickTexture)
+        addChild(cueStick)
+
+        
+        while cueBall.speed == 0 {
+            cueStick.position = cueBall.position
+            let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
+            cueStick.run(moveAction)
+            cueStick.zPosition = 0
+            cueStick.size = CGSize(width: 200, height: 150)
+            cueStick.isHidden = false
+        }
+        while cueBall.speed > 0{
+            cueStick.isHidden = true
+        }
         
         }
 }
+
 
 
 
