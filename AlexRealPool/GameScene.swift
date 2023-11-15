@@ -17,25 +17,31 @@ class Ball: SKSpriteNode {
         self.zPosition = 1
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-//        self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 1
+        self.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.restitution = 0.95
         self.physicsBody?.collisionBitMask = 0b0001
-        self.physicsBody?.linearDamping = 0.1
+        self.physicsBody?.linearDamping = 0.3
+        
         self.physicsBody?.allowsRotation = false
         
+        
         let velocityx = self.physicsBody?.velocity.dx
-//        if velocityx == nil{
-//            let velocityx = 0.0
-//        }
+        if velocityx == nil{
+            let velocityx = 0.0
+        }
         let velocityy = self.physicsBody?.velocity.dy
-//        if velocityy == nil{
-//            let velocityy = 0.0
-//        }
-        let speed = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
-//        if speed < 0.1 && speed > 0{
-//            self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            self.speed = 0
-//        }
+        if velocityy == nil{
+            let velocityy = 0.0
+        }
+        var speeds = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
+        while true {
+            if speeds < 0.1 && speeds > 0{
+                self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                let velocityx = self.physicsBody?.velocity.dx
+                let velocityy = self.physicsBody?.velocity.dy
+                speeds = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -54,9 +60,11 @@ class GameScene: SKScene {
         
         let wall1 = SKNode()
         wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
-//        wall1.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.usesPreciseCollisionDetection = true
         wall1.physicsBody?.restitution = 1
         wall1.physicsBody?.collisionBitMask = 0b0001
+        
+        
         addChild(wall1)
 
         
@@ -76,13 +84,12 @@ class GameScene: SKScene {
         
         let wall4 = SKNode()
         wall4.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
-//        wall4.physicsBody?.usesPreciseCollisionDetection = true
+        wall4.physicsBody?.usesPreciseCollisionDetection = true
         wall4.physicsBody?.restitution = 1
         wall4.physicsBody?.collisionBitMask = 0b0001
         addChild(wall4)
         
-        self.physicsBody?.restitution = 1
-        self.physicsBody?.linearDamping = 0.3
+        self.physicsBody?.linearDamping = 0
         
 
         // Table set up
@@ -133,9 +140,6 @@ class GameScene: SKScene {
             blueBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(blueBall)
         }
-//        let blueBall = Ball(texture: blueBallTexture)
-//        blueBall.position = point1
-//        addChild(blueBall)
         
         
         for (x,y) in redBallPositions {
@@ -143,9 +147,7 @@ class GameScene: SKScene {
             redBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(redBall)
         }
-//        let redBall = Ball(texture: redBallTexture)
-//        redBall.position = point2
-//        addChild(redBall)
+
         
         let cueBall = Ball(texture: cueBallTexture)
         cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
@@ -156,15 +158,22 @@ class GameScene: SKScene {
         addChild(blackBall)
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 1, dy: 0))
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
         
         
         let cueStickTexture = SKTexture(imageNamed: "CueStick")
         let cueStick = SKSpriteNode(texture: cueStickTexture)
         addChild(cueStick)
 
+        cueStick.position = cueBall.position
+        let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
+        cueStick.run(moveAction)
+        cueStick.zPosition = 0
+        cueStick.size = CGSize(width: 200, height: 150)
         
-        while cueBall.speed == 0 {
+        
+    
+        while cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0) {
             cueStick.position = cueBall.position
             let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
             cueStick.run(moveAction)
@@ -172,10 +181,7 @@ class GameScene: SKScene {
             cueStick.size = CGSize(width: 200, height: 150)
             cueStick.isHidden = false
         }
-        while cueBall.speed > 0{
-            cueStick.isHidden = true
-        }
-        
+        cueStick.isHidden = true
         }
 }
 
