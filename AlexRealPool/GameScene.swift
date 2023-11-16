@@ -25,23 +25,16 @@ class Ball: SKSpriteNode {
         self.physicsBody?.allowsRotation = false
         
         
-        let velocityx = self.physicsBody?.velocity.dx
-        if velocityx == nil{
-            let velocityx = 0.0
+    }
+    func updateSpeed(){
+        guard let velocity = self.physicsBody?.velocity
+        else{
+            return
         }
-        let velocityy = self.physicsBody?.velocity.dy
-        if velocityy == nil{
-            let velocityy = 0.0
-        }
-        var speeds = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
-        while true {
-            if speeds < 0.1 && speeds > 0{
+        let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
+            if speeds < 0.5 && speeds > 0 {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                let velocityx = self.physicsBody?.velocity.dx
-                let velocityy = self.physicsBody?.velocity.dy
-                speeds = sqrt(pow(velocityx!,2.0) + pow(velocityy!,2.0))
             }
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -51,7 +44,14 @@ class Ball: SKSpriteNode {
 
 class GameScene: SKScene {
     
+    var cueBall: Ball!
+    var redBall: Ball!
+    var blueBall: Ball!
+    var blackBall: Ball!
+    var cueStick: SKSpriteNode!
+    
     override func didMove(to view: SKView) {
+        
         
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
@@ -170,19 +170,22 @@ class GameScene: SKScene {
         cueStick.run(moveAction)
         cueStick.zPosition = 0
         cueStick.size = CGSize(width: 200, height: 150)
+
+        }
+    override func update(_ currentTime: TimeInterval){
         
-        
+        if let cueBall = cueBall{
+            cueBall.updateSpeed()
+            
+            if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
+                cueStick.isHidden = false
+            }
+            else{
+                cueStick.isHidden = true
+            }
+        }
+    }
     
-        while cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0) {
-            cueStick.position = cueBall.position
-            let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
-            cueStick.run(moveAction)
-            cueStick.zPosition = 0
-            cueStick.size = CGSize(width: 200, height: 150)
-            cueStick.isHidden = false
-        }
-        cueStick.isHidden = true
-        }
 }
 
 
