@@ -26,17 +26,17 @@ class Ball: SKSpriteNode {
         
         
     }
-//    func updateSpeed(){
-//        guard let velocity = self.physicsBody?.velocity
-//        else{
-//            return
-//        }
-//        let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
-//            if speeds < 0.5 && speeds > 0 {
-//                self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            }
-//    }
-//    
+    func updateSpeed(){
+        guard let velocity = self.physicsBody?.velocity
+        else{
+            return
+        }
+        let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
+            if speeds < 0.5 && speeds > 0 {
+                self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("Error")
     }
@@ -44,11 +44,12 @@ class Ball: SKSpriteNode {
 
 class GameScene: SKScene {
     
-//    var cueBall: Ball!
-//    var redBall: Ball!
-//    var blueBall: Ball!
-//    var blackBall: Ball!
-//    var cueStick: SKSpriteNode!
+    var gameStarted: Bool!
+    var cueBall: Ball!
+    var redBall: Ball!
+    var blueBall: Ball!
+    var blackBall: Ball!
+    var cueStick: SKSpriteNode!
     
     override func didMove(to view: SKView) {
         
@@ -157,8 +158,10 @@ class GameScene: SKScene {
         blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
         
+        let gameStarted = true
+        
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
+        cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
         
         
         let cueStickTexture = SKTexture(imageNamed: "CueStick")
@@ -172,19 +175,23 @@ class GameScene: SKScene {
         cueStick.size = CGSize(width: 200, height: 150)
 
         }
-//    override func update(_ currentTime: TimeInterval){
-//        
-//        if let cueBall = cueBall{
-//            cueBall.updateSpeed()
-//            
-//            if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
-//                cueStick.isHidden = false
-//            }
-//            else{
-//                cueStick.isHidden = true
-//            }
-//        }
-//    }
+    
+    override func update(_ currentTime: TimeInterval){
+        
+        if gameStarted == true{
+            cueBall.physicsBody?.applyImpulse(CGVector(dx: 1, dy: 0))
+            if let cueBall = cueBall{
+                cueBall.updateSpeed()
+                
+                if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
+                    cueStick.isHidden = false
+                }
+                else{
+                    cueStick.isHidden = true
+                }
+            }
+        }
+    }
     
 }
 
