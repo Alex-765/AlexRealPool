@@ -37,9 +37,9 @@ class Ball: SKSpriteNode {
 //            }
 //    }
 //    
-//    required init?(coder: NSCoder) {
-//        fatalError("Error")
-//    }
+    required init?(coder: NSCoder) {
+        fatalError("Error")
+    }
 }
 
 class GameScene: SKScene {
