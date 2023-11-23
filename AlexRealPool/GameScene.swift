@@ -49,6 +49,9 @@ class GameScene: SKScene {
     var blueBall: Ball!
     var blackBall: Ball!
     var cueStick: SKSpriteNode!
+    var rightButton: SKSpriteNode!
+    var leftButton: SKSpriteNode!
+    var powerButton: SKSpriteNode!
     
     override func didMove(to view: SKView) {
     
@@ -166,14 +169,31 @@ class GameScene: SKScene {
         addChild(cueStick)
 
         cueStick.position = cueBall.position
-        let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
+        let moveAction: SKAction = SKAction.moveBy(x: -110, y: -20, duration: 0)
         cueStick.run(moveAction)
         cueStick.zPosition = 0
         cueStick.size = CGSize(width: 200, height: 150)
+    
+        
+        let rightTexture = SKTexture(imageNamed: "right")
+        rightButton = SKSpriteNode(texture: rightTexture)
+        rightButton.zPosition = 2
+        rightButton.size = CGSize(width: 35, height: 33)
+        rightButton.position = CGPoint(x: frame.midX + 45, y:frame.midY + 177)
+        addChild(rightButton)
+        
+        let leftTexture = SKTexture(imageNamed: "left")
+        leftButton = SKSpriteNode(texture: leftTexture)
+        leftButton.zPosition = 2
+        leftButton.size = CGSize(width: 35, height: 33)
+        leftButton.position = CGPoint(x: frame.midX - 45, y:frame.midY + 177)
+        addChild(leftButton)
+        
         
         gameStarted = true
 
         }
+    
     
     override func update(_ currentTime: TimeInterval){
         
@@ -192,6 +212,12 @@ class GameScene: SKScene {
             }
         }
     }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        
+//    }
+    
+    
     
 }
 
