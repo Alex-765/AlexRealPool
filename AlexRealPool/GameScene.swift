@@ -9,7 +9,6 @@
 import SpriteKit
 
 class Ball: SKSpriteNode {
-    // Initialize the Ball with a size of 20x20
     init(texture: SKTexture?) {
         let size = CGSize(width:20, height: 20)
         
@@ -52,8 +51,7 @@ class GameScene: SKScene {
     var cueStick: SKSpriteNode!
     
     override func didMove(to view: SKView) {
-        
-        
+    
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
         let point3 = CGPoint(x:-380, y: 140)
@@ -137,35 +135,34 @@ class GameScene: SKScene {
         // Placing Balls in Break Positions
         
         for (x,y) in blueBallPositions {
-            let blueBall = Ball(texture: blueBallTexture)
+            blueBall = Ball(texture: blueBallTexture)
             blueBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(blueBall)
         }
         
         
         for (x,y) in redBallPositions {
-            let redBall = Ball(texture: redBallTexture)
+            redBall = Ball(texture: redBallTexture)
             redBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(redBall)
         }
 
         
-        let cueBall = Ball(texture: cueBallTexture)
+        cueBall = Ball(texture: cueBallTexture)
         cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
         addChild(cueBall)
         
-        let blackBall = Ball(texture: blackBallTexture)
+        blackBall = Ball(texture: blackBallTexture)
         blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
-        
-        let gameStarted = true
+    
         
         cueBall.physicsBody?.velocity = self.physicsBody!.velocity
         cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
         
         
         let cueStickTexture = SKTexture(imageNamed: "CueStick")
-        let cueStick = SKSpriteNode(texture: cueStickTexture)
+        cueStick = SKSpriteNode(texture: cueStickTexture)
         addChild(cueStick)
 
         cueStick.position = cueBall.position
@@ -173,17 +170,20 @@ class GameScene: SKScene {
         cueStick.run(moveAction)
         cueStick.zPosition = 0
         cueStick.size = CGSize(width: 200, height: 150)
+        
+        gameStarted = true
 
         }
     
     override func update(_ currentTime: TimeInterval){
         
         if gameStarted == true{
-            cueBall.physicsBody?.applyImpulse(CGVector(dx: 1, dy: 0))
             if let cueBall = cueBall{
                 cueBall.updateSpeed()
-                
                 if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
+                    cueStick.position = cueBall.position
+                    let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
+                    cueStick.run(moveAction)
                     cueStick.isHidden = false
                 }
                 else{
