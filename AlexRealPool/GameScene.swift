@@ -52,12 +52,12 @@ class GameScene: SKScene {
     var rightButton: SKSpriteNode!
     var leftButton: SKSpriteNode!
     var powerButton: SKSpriteNode!
-//    var power: Int!
-//    var numberOne: SKSpriteNode!
-//    var numberTwo: SKSpriteNode!
-//    var numberThree: SKSpriteNode!
-//    var numberFour: SKSpriteNode!
-//    var numberFive: SKSpriteNode!
+    var power: Int!
+    var numberOne: SKSpriteNode!
+    var numberTwo: SKSpriteNode!
+    var numberThree: SKSpriteNode!
+    var numberFour: SKSpriteNode!
+    var numberFive: SKSpriteNode!
     
     override func didMove(to view: SKView) {
     
@@ -196,10 +196,36 @@ class GameScene: SKScene {
         addChild(leftButton)
         
         gameStarted = true
-//        var power = 1
         
-//        let oneTexture = SKTexture(imageNamed: "1")
-//        numberOne = SKSpriteNode(texture: oneTexture)
+        let oneTexture = SKTexture(imageNamed: "1")
+        numberOne = SKSpriteNode(texture: oneTexture)
+        numberOne.size = CGSize(width: 35, height: 30)
+        numberOne.position = CGPoint(x: frame.midX + 405, y:frame.midY - 105)
+        addChild(numberOne)
+        
+        let twoTexture = SKTexture(imageNamed: "2")
+        numberTwo = SKSpriteNode(texture: twoTexture)
+        numberTwo.size = CGSize(width: 38, height: 38)
+        numberTwo.position = CGPoint(x: frame.midX + 405, y:frame.midY - 50)
+        addChild(numberTwo)
+        
+        let threeTexture = SKTexture(imageNamed: "3")
+        numberThree = SKSpriteNode(texture: threeTexture)
+        numberThree.size = CGSize(width:40, height: 38)
+        numberThree.position = CGPoint(x: frame.midX + 405, y:frame.midY)
+        addChild(numberThree)
+        
+        let fourTexture = SKTexture(imageNamed: "4")
+        numberFour = SKSpriteNode(texture: fourTexture)
+        numberFour.size = CGSize(width: 50, height: 50)
+        numberFour.position = CGPoint(x: frame.midX + 405, y:frame.midY + 55)
+        addChild(numberFour)
+        
+        let fiveTexture = SKTexture(imageNamed: "5")
+        numberFive = SKSpriteNode(texture: fiveTexture)
+        numberFive.size = CGSize(width: 30, height: 25)
+        numberFive.position = CGPoint(x: frame.midX + 405, y:frame.midY + 105)
+        addChild(numberFive)
         
         }
     
@@ -212,7 +238,7 @@ class GameScene: SKScene {
                 if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
                     cueStick.position = cueBall.position
                     cueStick.isHidden = false
-                    cueBall.physicsBody?.applyImpulse(CGVector(dx: 4, dy: 0))
+                    cueBall.physicsBody?.applyImpulse(CGVector(dx:0, dy: 0))
                 }
                 else{
                     cueStick.isHidden = true
@@ -229,6 +255,25 @@ class GameScene: SKScene {
             }
             if rightButton.contains(touchLocation) {
                 cueStick.zRotation = cueStick.zRotation - 0.05
+            }
+            if numberOne.contains(touchLocation) {
+                power = 1
+                blackBall.run(SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.15))
+//                numberOne.color = .red
+//                numberOne.colorBlendFactor = 1
+                
+            }
+            if numberTwo.contains(touchLocation) {
+                power = 2
+            }
+            if numberThree.contains(touchLocation) {
+                power = 3
+            }
+            if numberFour.contains(touchLocation) {
+                power = 4
+            }
+            if numberFive.contains(touchLocation) {
+                power = 5
             }
         }
     }
