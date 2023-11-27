@@ -17,7 +17,7 @@ class Ball: SKSpriteNode {
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.restitution = 0.95
+        self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.1
         
@@ -31,7 +31,7 @@ class Ball: SKSpriteNode {
             return
         }
         let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
-            if speeds < 0.5 && speeds > 0 {
+            if speeds < 1 && speeds > 0 {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             }
     }
@@ -52,9 +52,16 @@ class GameScene: SKScene {
     var rightButton: SKSpriteNode!
     var leftButton: SKSpriteNode!
     var powerButton: SKSpriteNode!
+//    var power: Int!
+//    var numberOne: SKSpriteNode!
+//    var numberTwo: SKSpriteNode!
+//    var numberThree: SKSpriteNode!
+//    var numberFour: SKSpriteNode!
+//    var numberFive: SKSpriteNode!
     
     override func didMove(to view: SKView) {
     
+
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
         let point3 = CGPoint(x:-380, y: 140)
@@ -169,9 +176,8 @@ class GameScene: SKScene {
         addChild(cueStick)
 
         cueStick.position = cueBall.position
-        let moveAction: SKAction = SKAction.moveBy(x: -110, y: -20, duration: 0)
-        cueStick.run(moveAction)
         cueStick.zPosition = 0
+        cueStick.anchorPoint = CGPoint(x: 1.0, y: 0.5)
         cueStick.size = CGSize(width: 200, height: 150)
     
         
@@ -189,9 +195,12 @@ class GameScene: SKScene {
         leftButton.position = CGPoint(x: frame.midX - 45, y:frame.midY + 177)
         addChild(leftButton)
         
-        
         gameStarted = true
-
+//        var power = 1
+        
+//        let oneTexture = SKTexture(imageNamed: "1")
+//        numberOne = SKSpriteNode(texture: oneTexture)
+        
         }
     
     
@@ -202,9 +211,8 @@ class GameScene: SKScene {
                 cueBall.updateSpeed()
                 if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
                     cueStick.position = cueBall.position
-                    let moveAction: SKAction = SKAction.moveBy(x: -110, y: 0, duration: 0)
-                    cueStick.run(moveAction)
                     cueStick.isHidden = false
+                    cueBall.physicsBody?.applyImpulse(CGVector(dx: 4, dy: 0))
                 }
                 else{
                     cueStick.isHidden = true
@@ -213,22 +221,17 @@ class GameScene: SKScene {
         }
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//    }
-    
-    
-    
-}
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches{
+            let touchLocation = touch.location(in: self)
+            if leftButton.contains(touchLocation) {
+                cueStick.zRotation = cueStick.zRotation + 0.05
+            }
+            if rightButton.contains(touchLocation) {
+                cueStick.zRotation = cueStick.zRotation - 0.05
+            }
+        }
+    }
+    }
 
-
-
-
-
-#if os(iOS) || os(tvOS)
-// Touch-based event handling
-extension GameScene {
-   
-}
-#endif
-
+//cosz rotation * power, sin z rotation * power
