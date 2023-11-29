@@ -20,7 +20,6 @@ class Ball: SKSpriteNode {
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.1
-        
         self.physicsBody?.allowsRotation = false
         
         
@@ -52,15 +51,16 @@ class GameScene: SKScene {
     var rightButton: SKSpriteNode!
     var leftButton: SKSpriteNode!
     var powerButton: SKSpriteNode!
-    var power: Int!
+    var power: CGFloat!
     var numberOne: SKSpriteNode!
     var numberTwo: SKSpriteNode!
     var numberThree: SKSpriteNode!
     var numberFour: SKSpriteNode!
     var numberFive: SKSpriteNode!
+    var chosen: Int!
+    var fire: SKLabelNode!
     
     override func didMove(to view: SKView) {
-    
 
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
@@ -89,6 +89,7 @@ class GameScene: SKScene {
 //        wall3.physicsBody?.usesPreciseCollisionDetection = true
         wall3.physicsBody?.restitution = 1
         wall3.physicsBody?.collisionBitMask = 0b0001
+        
         addChild(wall3)
         
         let wall4 = SKNode()
@@ -211,21 +212,29 @@ class GameScene: SKScene {
         
         let threeTexture = SKTexture(imageNamed: "3")
         numberThree = SKSpriteNode(texture: threeTexture)
-        numberThree.size = CGSize(width:40, height: 38)
-        numberThree.position = CGPoint(x: frame.midX + 405, y:frame.midY)
+        numberThree.size = CGSize(width:40, height: 45)
+        numberThree.position = CGPoint(x: frame.midX + 405, y:frame.midY - 5)
         addChild(numberThree)
         
         let fourTexture = SKTexture(imageNamed: "4")
         numberFour = SKSpriteNode(texture: fourTexture)
-        numberFour.size = CGSize(width: 50, height: 50)
-        numberFour.position = CGPoint(x: frame.midX + 405, y:frame.midY + 55)
+        numberFour.size = CGSize(width: 50, height: 45)
+        numberFour.position = CGPoint(x: frame.midX + 405, y:frame.midY + 40)
         addChild(numberFour)
         
         let fiveTexture = SKTexture(imageNamed: "5")
         numberFive = SKSpriteNode(texture: fiveTexture)
         numberFive.size = CGSize(width: 30, height: 25)
-        numberFive.position = CGPoint(x: frame.midX + 405, y:frame.midY + 105)
+        numberFive.position = CGPoint(x: frame.midX + 405, y:frame.midY + 75)
         addChild(numberFive)
+        
+        fire = SKLabelNode(fontNamed: "Impact")
+        fire.text = "Fire"
+        fire.fontColor = .red
+        fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
+        fire.fontSize = 22
+        fire.zPosition = 2
+        addChild(fire)
         
         }
     
@@ -244,6 +253,36 @@ class GameScene: SKScene {
                     cueStick.isHidden = true
                 }
             }
+            if chosen == 1{
+                numberOne.isHidden = true
+            }
+            else{
+                numberOne.isHidden = false
+            }
+            if chosen == 2{
+                numberTwo.isHidden = true
+            }
+            else{
+                numberTwo.isHidden = false
+            }
+            if chosen == 3{
+                numberThree.isHidden = true
+            }
+            else{
+                numberThree.isHidden = false
+            }
+            if chosen == 4{
+                numberFour.isHidden = true
+            }
+            else{
+                numberFour.isHidden = false
+            }
+            if chosen == 5{
+                numberFive.isHidden = true
+            }
+            else{
+                numberFive.isHidden = false
+            }
         }
     }
     
@@ -257,26 +296,30 @@ class GameScene: SKScene {
                 cueStick.zRotation = cueStick.zRotation - 0.05
             }
             if numberOne.contains(touchLocation) {
-                power = 1
-                blackBall.run(SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.15))
-//                numberOne.color = .red
-//                numberOne.colorBlendFactor = 1
-                
+                power = 1.0
+                chosen = 1
             }
             if numberTwo.contains(touchLocation) {
-                power = 2
+                power = 2.0
+                chosen = 2
             }
             if numberThree.contains(touchLocation) {
-                power = 3
+                power = 3.0
+                chosen = 3
             }
             if numberFour.contains(touchLocation) {
-                power = 4
+                power = 4.0
+                chosen = 4
             }
             if numberFive.contains(touchLocation) {
-                power = 5
+                power = 5.0
+                chosen = 5
+            }
+            if fire.contains(touchLocation) {
+                if power > 1.0{
+                    cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
+                }
             }
         }
     }
     }
-
-//cosz rotation * power, sin z rotation * power
