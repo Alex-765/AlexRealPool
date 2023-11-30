@@ -19,7 +19,7 @@ class Ball: SKSpriteNode {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
-        self.physicsBody?.linearDamping = 0.1
+        self.physicsBody?.linearDamping = 0.3
         self.physicsBody?.allowsRotation = false
         
         
@@ -52,11 +52,11 @@ class GameScene: SKScene {
     var leftButton: SKSpriteNode!
     var powerButton: SKSpriteNode!
     var power: CGFloat!
-    var numberOne: SKSpriteNode!
-    var numberTwo: SKSpriteNode!
-    var numberThree: SKSpriteNode!
-    var numberFour: SKSpriteNode!
-    var numberFive: SKSpriteNode!
+    var numberOne: SKLabelNode!
+    var numberTwo: SKLabelNode!
+    var numberThree: SKLabelNode!
+    var numberFour: SKLabelNode!
+    var numberFive: SKLabelNode!
     var chosen: Int!
     var fire: SKLabelNode!
     
@@ -64,43 +64,58 @@ class GameScene: SKScene {
 
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
-        let point3 = CGPoint(x:-380, y: 140)
-        let point4 = CGPoint(x:-380, y: -140)
+        let point3 = CGPoint(x:355, y:-155)
+        let point4 = CGPoint(x:25, y:-155)
+        let point5 = CGPoint(x:-25, y:-155)
+        let point6 = CGPoint(x:-355, y:-155)
+        let point7 = CGPoint(x:-380, y:140)
+        let point8 = CGPoint(x:-380, y:-140)
+        let point9 = CGPoint(x:355, y:155)
+        let point10 = CGPoint(x:25, y:155)
+        let point11 = CGPoint(x:-25, y:155)
+        let point12 = CGPoint(x:-355, y:155)
         
         let wall1 = SKNode()
         wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
 //        wall1.physicsBody?.usesPreciseCollisionDetection = true
         wall1.physicsBody?.restitution = 1
         wall1.physicsBody?.collisionBitMask = 0b0001
-        
-        
         addChild(wall1)
-
         
         let wall2 = SKNode()
-        wall2.physicsBody = SKPhysicsBody(edgeFrom: point2, to: point4)
+        wall2.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
 //        wall2.physicsBody?.usesPreciseCollisionDetection = true
         wall2.physicsBody?.restitution = 1
         wall2.physicsBody?.collisionBitMask = 0b0001
         addChild(wall2)
         
         let wall3 = SKNode()
-        wall3.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point3)
+        wall3.physicsBody = SKPhysicsBody(edgeFrom: point5, to: point6)
 //        wall3.physicsBody?.usesPreciseCollisionDetection = true
         wall3.physicsBody?.restitution = 1
         wall3.physicsBody?.collisionBitMask = 0b0001
-        
         addChild(wall3)
         
         let wall4 = SKNode()
-        wall4.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
-        wall4.physicsBody?.usesPreciseCollisionDetection = true
+        wall4.physicsBody = SKPhysicsBody(edgeFrom: point7, to: point8)
+//        wall4.physicsBody?.usesPreciseCollisionDetection = true
         wall4.physicsBody?.restitution = 1
         wall4.physicsBody?.collisionBitMask = 0b0001
         addChild(wall4)
         
-        self.physicsBody?.linearDamping = 0
+        let wall5 = SKNode()
+        wall5.physicsBody = SKPhysicsBody(edgeFrom: point9, to: point10)
+//        wall5.physicsBody?.usesPreciseCollisionDetection = true
+        wall5.physicsBody?.restitution = 1
+        wall5.physicsBody?.collisionBitMask = 0b0001
+        addChild(wall5)
         
+        let wall6 = SKNode()
+        wall6.physicsBody = SKPhysicsBody(edgeFrom: point11, to: point12)
+//        wall6.physicsBody?.usesPreciseCollisionDetection = true
+        wall6.physicsBody?.restitution = 1
+        wall6.physicsBody?.collisionBitMask = 0b0001
+        addChild(wall6)
 
         // Table set up
         
@@ -142,9 +157,7 @@ class GameScene: SKScene {
             (175, -10),
             (175, 10)
         ]
-        
-        // Placing Balls in Break Positions
-        
+                
         for (x,y) in blueBallPositions {
             blueBall = Ball(texture: blueBallTexture)
             blueBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
@@ -164,6 +177,8 @@ class GameScene: SKScene {
         addChild(cueBall)
         
         blackBall = Ball(texture: blackBallTexture)
+        blackBall.color = .red
+        blackBall.colorBlendFactor = 1
         blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
     
@@ -198,34 +213,40 @@ class GameScene: SKScene {
         
         gameStarted = true
         
-        let oneTexture = SKTexture(imageNamed: "1")
-        numberOne = SKSpriteNode(texture: oneTexture)
-        numberOne.size = CGSize(width: 35, height: 30)
-        numberOne.position = CGPoint(x: frame.midX + 405, y:frame.midY - 105)
+        numberOne = SKLabelNode(fontNamed: "Helvetica")
+        numberOne.text = "1"
+        numberOne.fontColor = .black
+        numberOne.position = CGPoint(x: frame.midX + 405, y: frame.midY - 105)
+        numberOne.fontSize = 35
+
         addChild(numberOne)
         
-        let twoTexture = SKTexture(imageNamed: "2")
-        numberTwo = SKSpriteNode(texture: twoTexture)
-        numberTwo.size = CGSize(width: 38, height: 38)
-        numberTwo.position = CGPoint(x: frame.midX + 405, y:frame.midY - 50)
+        numberTwo = SKLabelNode(fontNamed: "Helvetica")
+        numberTwo.text = "2"
+        numberTwo.fontColor = .black
+        numberTwo.position = CGPoint(x: frame.midX + 405, y: frame.midY - 60)
+        numberTwo.fontSize = 35
         addChild(numberTwo)
         
-        let threeTexture = SKTexture(imageNamed: "3")
-        numberThree = SKSpriteNode(texture: threeTexture)
-        numberThree.size = CGSize(width:40, height: 45)
-        numberThree.position = CGPoint(x: frame.midX + 405, y:frame.midY - 5)
+        numberThree = SKLabelNode(fontNamed: "Helvetica")
+        numberThree.text = "3"
+        numberThree.fontColor = .black
+        numberThree.position = CGPoint(x: frame.midX + 405, y: frame.midY - 20)
+        numberThree.fontSize = 35
         addChild(numberThree)
         
-        let fourTexture = SKTexture(imageNamed: "4")
-        numberFour = SKSpriteNode(texture: fourTexture)
-        numberFour.size = CGSize(width: 50, height: 45)
-        numberFour.position = CGPoint(x: frame.midX + 405, y:frame.midY + 40)
+        numberFour = SKLabelNode(fontNamed: "Helvetica")
+        numberFour.text = "4"
+        numberFour.fontColor = .black
+        numberFour.position = CGPoint(x: frame.midX + 405, y: frame.midY + 20)
+        numberFour.fontSize = 35
         addChild(numberFour)
         
-        let fiveTexture = SKTexture(imageNamed: "5")
-        numberFive = SKSpriteNode(texture: fiveTexture)
-        numberFive.size = CGSize(width: 30, height: 25)
-        numberFive.position = CGPoint(x: frame.midX + 405, y:frame.midY + 75)
+        numberFive = SKLabelNode(fontNamed: "Helvetica")
+        numberFive.text = "5"
+        numberFive.fontColor = .black
+        numberFive.position = CGPoint(x: frame.midX + 405, y: frame.midY + 60)
+        numberFive.fontSize = 35
         addChild(numberFive)
         
         fire = SKLabelNode(fontNamed: "Impact")
@@ -233,8 +254,9 @@ class GameScene: SKScene {
         fire.fontColor = .red
         fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
         fire.fontSize = 22
-        fire.zPosition = 2
         addChild(fire)
+        
+        power = 0
         
         }
     
@@ -247,7 +269,6 @@ class GameScene: SKScene {
                 if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
                     cueStick.position = cueBall.position
                     cueStick.isHidden = false
-                    cueBall.physicsBody?.applyImpulse(CGVector(dx:0, dy: 0))
                 }
                 else{
                     cueStick.isHidden = true
@@ -316,7 +337,7 @@ class GameScene: SKScene {
                 chosen = 5
             }
             if fire.contains(touchLocation) {
-                if power > 1.0{
+                if power >= 1.0{
                     cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
                 }
             }
