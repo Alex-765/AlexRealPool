@@ -8,7 +8,12 @@
 import SpriteKit
 
 class Ball: SKSpriteNode {
+    let screenWidth = UIScreen.main.bounds.height
+    let screenHeight = UIScreen.main.bounds.width
+    
+    
     init(texture: SKTexture?) {
+        
         let size = CGSize(width:20, height: 20)
         
         super.init(texture: texture, color: .clear, size: size)
@@ -33,8 +38,7 @@ class Ball: SKSpriteNode {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             }
     }
-    
-    required init?(coder: NSCoder) {
+        required init?(coder: NSCoder) {
         fatalError("Error")
     }
 }
@@ -72,29 +76,45 @@ class GameScene: SKScene {
     var pocket4: SKSpriteNode!
     var pocket5: SKSpriteNode!
     var pocket6: SKSpriteNode!
-    var scoreRed: Int!
-    var scoreBlue: Int!
     var path: SKSpriteNode!
     var paths: [SKSpriteNode]!
     var rotationSpeed: CGFloat!
+    var scoreRed: Int!
+    var scoreBlue: Int!
+    var turn: String!
     
+    let screenWidth = UIScreen.main.bounds.height
+    let screenHeight = UIScreen.main.bounds.width
+    
+    
+    func transform_x(_ val: Double) -> Double{
+        return val//*screenWidth/393
+    }
+    
+    func transform_y(_ val: Double) -> Double{
+        return val//*screenHeight/852
+    }
     
     override func didMove(to view: SKView) {
         
-//        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-
-        let point1 = CGPoint(x:380, y:140)
-        let point2 = CGPoint(x:380, y:-140)
-        let point3 = CGPoint(x:355, y:-161)
-        let point4 = CGPoint(x:25, y:-161)
-        let point5 = CGPoint(x:-25, y:-161)
-        let point6 = CGPoint(x:-355, y:-161)
-        let point7 = CGPoint(x:-380, y:140)
-        let point8 = CGPoint(x:-380, y:-140)
-        let point9 = CGPoint(x:355, y:161)
-        let point10 = CGPoint(x:25, y:161)
-        let point11 = CGPoint(x:-25, y:161)
-        let point12 = CGPoint(x:-355, y:161)
+        let screenWidth = UIScreen.main.bounds.height
+        let screenHeight = UIScreen.main.bounds.width
+        
+        print(screenWidth)
+        print(screenHeight)
+        
+        let point1 = CGPoint(x:transform_x(380), y:transform_y(140))
+        let point2 = CGPoint(x:transform_x(380), y:transform_y(-140))
+        let point3 = CGPoint(x:transform_x(355), y:transform_y(-161))
+        let point4 = CGPoint(x:transform_x(25), y:transform_y(-161))
+        let point5 = CGPoint(x:transform_x(-25), y:transform_y(-161))
+        let point6 = CGPoint(x:transform_x(-355), y:transform_y(-161))
+        let point7 = CGPoint(x:transform_x(-380), y:transform_y(140))
+        let point8 = CGPoint(x:transform_x(-380), y:transform_y(-140))
+        let point9 = CGPoint(x:transform_x(355), y:transform_y(161))
+        let point10 = CGPoint(x:transform_x(25), y:transform_y(161))
+        let point11 = CGPoint(x:transform_x(-25), y:transform_y(161))
+        let point12 = CGPoint(x:transform_x(-355), y:transform_y(161))
         
         pocket1 = SKSpriteNode(imageNamed: "BlueBall")
         pocket1.size = CGSize(width: 35, height: 30)
@@ -187,23 +207,23 @@ class GameScene: SKScene {
         
         
         let redBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -20),
-            (235, 20),
-            (215, -10),
-            (215, 30),
-            (195, -20),
-            (195, 20),
-            (155, 0)
+            (transform_x(235), transform_y(-20)),
+            (transform_x(235), transform_y(20)),
+            (transform_x(215), transform_y(-10)),
+            (transform_x(215), transform_y(30)),
+            (transform_x(195), transform_y(-20)),
+            (transform_x(195), transform_y(20)),
+            (transform_x(155), transform_y(0))
         ]
         
         let blueBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -40),
-            (235, 0),
-            (235, 40),
-            (215, -30),
-            (215, 10),
-            (175, -10),
-            (175, 10)
+            (transform_x(235), transform_y(-40)),
+            (transform_x(235), transform_y(0)),
+            (transform_x(235), transform_y(40)),
+            (transform_x(215), transform_y(-30)),
+            (transform_x(215), transform_y(10)),
+            (transform_x(175), transform_y(-10)),
+            (transform_x(175), transform_y(10))
         ]
         
         blueBalls = []
@@ -224,14 +244,14 @@ class GameScene: SKScene {
 
         
         cueBall = Ball(texture: cueBallTexture)
-        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
+        cueBall.position = CGPoint(x: (frame.midX - transform_x(195)), y:(frame.midY))
         cueBall.color = .white
         addChild(cueBall)
         
         blackBall = Ball(texture: blackBallTexture)
         blackBall.color = .red
         blackBall.colorBlendFactor = 1
-        blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
+        blackBall.position = CGPoint(x: (frame.midX + transform_x(195)), y:(frame.midY))
         addChild(blackBall)
     
         cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
