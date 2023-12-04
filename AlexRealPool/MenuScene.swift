@@ -7,7 +7,10 @@
 
 import SpriteKit
 
+
 class MenuScene: SKScene {
+    
+    var playButton: SKLabelNode!
     
     override func didMove(to view: SKView) {
         
@@ -16,23 +19,29 @@ class MenuScene: SKScene {
         background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.zPosition = -1
         addChild(background)
+
+        playButton = SKLabelNode(fontNamed: "Impact")
+        playButton.text = "Play Game"
+        playButton.position = CGPoint(x: frame.midX, y: frame.midY)
+        playButton.fontColor = .red
+        playButton.fontSize = 50
+        playButton.zPosition = 1
         
-        let name = SKLabelNode(fontNamed: "Calibri")
-        
-//
-//        let playButton = SKSpriteNode(imageNamed: "RedBall")
-//        playButton.size = CGSize(width: 50, height: 50)
-//        playButton.position = CGPoint(x: frame.midX, y: frame.midY)
-//        playButton.name = "playButton"
-//        addChild(playButton)
+        addChild(playButton)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches{
+            let touchLocation = touch.location(in: self)
+            if playButton.contains(touchLocation) {
+                if let view = self.view as! SKView? {
+                    if let scene = SKScene(fileNamed: "GameScene") {
+                        scene.scaleMode = .resizeFill
+                        view.presentScene(scene)
+                    }
+                }
+            }
+        }
     }
 }
 
-
-
-#if os(iOS) || os(tvOS)
-// Touch-based event handling
-extension MenuScene {
-   
-}
-#endif
