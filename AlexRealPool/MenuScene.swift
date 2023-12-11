@@ -34,9 +34,9 @@ class MenuScene: SKScene {
         for touch in touches{
             let touchLocation = touch.location(in: self)
             if playButton.contains(touchLocation) {
-                if let view = self.view as! SKView? {
+                if let view = self.view{
                     if let scene = SKScene(fileNamed: "GameScene") {
-                        scene.scaleMode = .aspectFill
+                        scene.scaleMode = .resizeFill
                         view.presentScene(scene)
                     }
                 }

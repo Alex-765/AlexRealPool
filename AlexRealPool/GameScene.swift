@@ -20,7 +20,7 @@ class Ball: SKSpriteNode {
         self.zPosition = 2
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        self.physicsBody?.usesPreciseCollisionDetection = true
+//        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.7
@@ -81,7 +81,8 @@ class GameScene: SKScene {
     var rotationSpeed: CGFloat!
     var scoreRed: Int!
     var scoreBlue: Int!
-    var turn: String!
+    var shotCounter: Int!
+    var counter: SKLabelNode!
     
     let screenWidth = UIScreen.main.bounds.height
     let screenHeight = UIScreen.main.bounds.width
@@ -97,6 +98,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+        self.backgroundColor = .black
         let screenWidth = UIScreen.main.bounds.height
         let screenHeight = UIScreen.main.bounds.width
         
@@ -191,7 +193,7 @@ class GameScene: SKScene {
 
         let table = SKSpriteNode(imageNamed: "PoolTable")
         
-        table.size = view.frame.size
+        table.size = CGSize(width: 852, height: 393)
         table.position = CGPoint(x: frame.midX, y: frame.midY)
         table.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         table.zPosition = -1
@@ -347,6 +349,13 @@ class GameScene: SKScene {
         fire.fontSize = 22
         addChild(fire)
         
+        shotCounter = 0
+        counter = SKLabelNode(fontNamed: "Helvetica")
+        counter.text = String(shotCounter)
+        counter.fontColor = .blue
+        counter.position = CGPoint(x: frame.midX - 205, y: frame.midY + 170)
+        addChild(counter)
+        
         paths = []
         for i in 0..<15{
             path = SKSpriteNode(imageNamed: "redBall")
@@ -359,7 +368,8 @@ class GameScene: SKScene {
         
         power = 0
         rotationSpeed = 0
-        
+        scoreRed = 0
+        scoreBlue = 0
         
         }
     
@@ -412,34 +422,34 @@ class GameScene: SKScene {
                 }
             }
             if chosen == 1{
-                numberOne.isHidden = true
+                numberOne.fontColor = .red
             }
             else{
-                numberOne.isHidden = false
+                numberOne.fontColor = .black
             }
             if chosen == 2{
-                numberTwo.isHidden = true
+                numberTwo.fontColor = .red
             }
             else{
-                numberTwo.isHidden = false
+                numberTwo.fontColor = .black
             }
             if chosen == 3{
-                numberThree.isHidden = true
+                numberThree.fontColor = .red
             }
             else{
-                numberThree.isHidden = false
+                numberThree.fontColor = .black
             }
             if chosen == 4{
-                numberFour.isHidden = true
+                numberFour.fontColor = .red
             }
             else{
-                numberFour.isHidden = false
+                numberFour.fontColor = .black
             }
             if chosen == 5{
-                numberFive.isHidden = true
+                numberFive.fontColor = .red
             }
             else{
-                numberFive.isHidden = false
+                numberFive.fontColor = .black
             }
             let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
 
@@ -488,15 +498,15 @@ class GameScene: SKScene {
                 chosen = 1
             }
             if numberTwo.contains(touchLocation) {
-                power = 10.0
+                power = 5.0
                 chosen = 2
             }
             if numberThree.contains(touchLocation) {
-                power = 15.0
+                power = 10.0
                 chosen = 3
             }
             if numberFour.contains(touchLocation) {
-                power = 20.0
+                power = 18.0
                 chosen = 4
             }
             if numberFive.contains(touchLocation) {
