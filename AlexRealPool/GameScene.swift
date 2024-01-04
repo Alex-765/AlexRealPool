@@ -8,14 +8,19 @@
 import SpriteKit
 
 class Ball: SKSpriteNode {
+    let screenWidth = UIScreen.main.bounds.height
+    let screenHeight = UIScreen.main.bounds.width
+    
+    
     init(texture: SKTexture?) {
+        
         let size = CGSize(width:20, height: 20)
         
         super.init(texture: texture, color: .clear, size: size)
         self.zPosition = 2
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        self.physicsBody?.usesPreciseCollisionDetection = true
+//        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.7
@@ -33,8 +38,7 @@ class Ball: SKSpriteNode {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             }
     }
-    
-    required init?(coder: NSCoder) {
+        required init?(coder: NSCoder) {
         fatalError("Error")
     }
 }
@@ -77,11 +81,63 @@ class GameScene: SKScene {
     var path: SKSpriteNode!
     var paths: [SKSpriteNode]!
     var rotationSpeed: CGFloat!
+    var scoreRed: Int!
+    var scoreBlue: Int!
     var shotCounter: Int!
     var counter: SKLabelNode!
     
+    let screenWidth = UIScreen.main.bounds.height
+    let screenHeight = UIScreen.main.bounds.width
+    
+    
+    func transform_x(_ val: Double) -> Double{
+        return val//*screenWidth/393
+    }
+    
+    func transform_y(_ val: Double) -> Double{
+        return val//*screenHeight/852
+    }
     
     override func didMove(to view: SKView) {
+        
+        self.backgroundColor = .black
+        let screenWidth = UIScreen.main.bounds.height
+        let screenHeight = UIScreen.main.bounds.width
+        
+        print(screenWidth)
+        print(screenHeight)
+        
+        let point1 = CGPoint(x:transform_x(380), y:transform_y(140))
+        let point2 = CGPoint(x:transform_x(380), y:transform_y(-140))
+        let point3 = CGPoint(x:transform_x(355), y:transform_y(-161))
+        let point4 = CGPoint(x:transform_x(25), y:transform_y(-161))
+        let point5 = CGPoint(x:transform_x(-25), y:transform_y(-161))
+        let point6 = CGPoint(x:transform_x(-355), y:transform_y(-161))
+        let point7 = CGPoint(x:transform_x(-380), y:transform_y(140))
+        let point8 = CGPoint(x:transform_x(-380), y:transform_y(-140))
+        let point9 = CGPoint(x:transform_x(355), y:transform_y(161))
+        let point10 = CGPoint(x:transform_x(25), y:transform_y(161))
+        let point11 = CGPoint(x:transform_x(-25), y:transform_y(161))
+        let point12 = CGPoint(x:transform_x(-355), y:transform_y(161))
+        
+        pocket1 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket1.size = CGSize(width: 35, height: 30)
+        pocket1.position = CGPoint(x: (383), y:(-161))
+        pocket2 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket2.size = CGSize(width: 35, height: 30)
+        pocket2.position = CGPoint(x: (383), y:(161))
+        pocket3 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket3.size = CGSize(width: 40, height: 1)
+        pocket3.position = CGPoint(x: (0), y:(-171))
+        pocket4 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket4.size = CGSize(width: 40, height: 10)
+        pocket4.position = CGPoint(x: (0), y:(171))
+        pocket5 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket5.size = CGSize(width: 35, height: 30)
+        pocket5.position = CGPoint(x: (-383), y:(-161))
+        pocket6 = SKSpriteNode(imageNamed: "BlueBall")
+        pocket6.size = CGSize(width: 35, height: 30)
+        pocket6.position = CGPoint(x: (-383), y:(161))
         
 //        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
 
@@ -173,7 +229,7 @@ class GameScene: SKScene {
 
         let table = SKSpriteNode(imageNamed: "PoolTable")
         
-        table.size = view.frame.size
+        table.size = CGSize(width: 852, height: 393)
         table.position = CGPoint(x: frame.midX, y: frame.midY)
         table.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         table.zPosition = -1
@@ -189,23 +245,23 @@ class GameScene: SKScene {
         
         
         let redBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -20),
-            (235, 20),
-            (215, -10),
-            (215, 30),
-            (195, -20),
-            (195, 20),
-            (155, 0)
+            (transform_x(235), transform_y(-20)),
+            (transform_x(235), transform_y(20)),
+            (transform_x(215), transform_y(-10)),
+            (transform_x(215), transform_y(30)),
+            (transform_x(195), transform_y(-20)),
+            (transform_x(195), transform_y(20)),
+            (transform_x(155), transform_y(0))
         ]
         
         let blueBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -40),
-            (235, 0),
-            (235, 40),
-            (215, -30),
-            (215, 10),
-            (175, -10),
-            (175, 10)
+            (transform_x(235), transform_y(-40)),
+            (transform_x(235), transform_y(0)),
+            (transform_x(235), transform_y(40)),
+            (transform_x(215), transform_y(-30)),
+            (transform_x(215), transform_y(10)),
+            (transform_x(175), transform_y(-10)),
+            (transform_x(175), transform_y(10))
         ]
         
         blueBalls = []
@@ -233,7 +289,7 @@ class GameScene: SKScene {
         blackBall = Ball(texture: blackBallTexture)
         blackBall.color = .red
         blackBall.colorBlendFactor = 1
-        blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
+        blackBall.position = CGPoint(x: (frame.midX + transform_x(195)), y:(frame.midY))
         addChild(blackBall)
     
         cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
@@ -508,6 +564,14 @@ class GameScene: SKScene {
                 if power >= 1.0{
                     cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
                     shotCounter += 1
+                }
+            }
+            if backButton.contains(touchLocation) {
+                if let view = self.view as! SKView? {
+                    if let scene = SKScene(fileNamed: "MenuScene") {
+                        scene.scaleMode = .resizeFill
+                        view.presentScene(scene)
+                    }
                 }
             }
             if backButton.contains(touchLocation) {
