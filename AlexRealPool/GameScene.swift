@@ -141,37 +141,6 @@ class GameScene: SKScene {
         
 //        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
 
-        let point1 = CGPoint(x:380, y:140)
-        let point2 = CGPoint(x:380, y:-140)
-        let point3 = CGPoint(x:355, y:-161)
-        let point4 = CGPoint(x:25, y:-161)
-        let point5 = CGPoint(x:-25, y:-161)
-        let point6 = CGPoint(x:-355, y:-161)
-        let point7 = CGPoint(x:-380, y:140)
-        let point8 = CGPoint(x:-380, y:-140)
-        let point9 = CGPoint(x:355, y:161)
-        let point10 = CGPoint(x:25, y:161)
-        let point11 = CGPoint(x:-25, y:161)
-        let point12 = CGPoint(x:-355, y:161)
-        
-        pocket1 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket1.size = CGSize(width: 35, height: 30)
-        pocket1.position = CGPoint(x: (383), y:(-161))
-        pocket2 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket2.size = CGSize(width: 35, height: 30)
-        pocket2.position = CGPoint(x: (383), y:(161))
-        pocket3 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket3.size = CGSize(width: 40, height: 1)
-        pocket3.position = CGPoint(x: (0), y:(-171))
-        pocket4 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket4.size = CGSize(width: 40, height: 10)
-        pocket4.position = CGPoint(x: (0), y:(171))
-        pocket5 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket5.size = CGSize(width: 35, height: 30)
-        pocket5.position = CGPoint(x: (-383), y:(-161))
-        pocket6 = SKSpriteNode(imageNamed: "BlueBall")
-        pocket6.size = CGSize(width: 35, height: 30)
-        pocket6.position = CGPoint(x: (-383), y:(161))
         
         let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
 
