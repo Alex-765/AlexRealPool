@@ -8,9 +8,6 @@
 import SpriteKit
 
 class Ball: SKSpriteNode {
-    let screenWidth = UIScreen.main.bounds.height
-    let screenHeight = UIScreen.main.bounds.width
-    
     
     init(texture: SKTexture?) {
         
@@ -20,7 +17,7 @@ class Ball: SKSpriteNode {
         self.zPosition = 2
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-//        self.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
         self.physicsBody?.linearDamping = 0.7
@@ -38,6 +35,7 @@ class Ball: SKSpriteNode {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             }
     }
+    
         required init?(coder: NSCoder) {
         fatalError("Error")
     }
@@ -52,10 +50,10 @@ class GameScene: SKScene {
     var cueBall: Ball!
     var redBall: Ball!
     var blueBall: Ball!
-    var blueBalls: [Ball]!
-    var redBalls: [Ball]!
     var blackBall: Ball!
     var cueStick: SKSpriteNode!
+    var blueBalls: [Ball]!
+    var redBalls: [Ball]!
     var rightButton: SKSpriteNode!
     var righterButton: SKSpriteNode!
     var leftButton: SKSpriteNode!
@@ -81,8 +79,6 @@ class GameScene: SKScene {
     var path: SKSpriteNode!
     var paths: [SKSpriteNode]!
     var rotationSpeed: CGFloat!
-    var scoreRed: Int!
-    var scoreBlue: Int!
     var shotCounter: Int!
     var counter: SKLabelNode!
     
@@ -107,18 +103,18 @@ class GameScene: SKScene {
         print(screenWidth)
         print(screenHeight)
         
-        let point1 = CGPoint(x:transform_x(380), y:transform_y(140))
-        let point2 = CGPoint(x:transform_x(380), y:transform_y(-140))
-        let point3 = CGPoint(x:transform_x(355), y:transform_y(-161))
-        let point4 = CGPoint(x:transform_x(25), y:transform_y(-161))
-        let point5 = CGPoint(x:transform_x(-25), y:transform_y(-161))
-        let point6 = CGPoint(x:transform_x(-355), y:transform_y(-161))
-        let point7 = CGPoint(x:transform_x(-380), y:transform_y(140))
-        let point8 = CGPoint(x:transform_x(-380), y:transform_y(-140))
-        let point9 = CGPoint(x:transform_x(355), y:transform_y(161))
-        let point10 = CGPoint(x:transform_x(25), y:transform_y(161))
-        let point11 = CGPoint(x:transform_x(-25), y:transform_y(161))
-        let point12 = CGPoint(x:transform_x(-355), y:transform_y(161))
+        let point1 = CGPoint(x:380, y:140)
+        let point2 = CGPoint(x:380, y:-140)
+        let point3 = CGPoint(x:355, y:-161)
+        let point4 = CGPoint(x:25, y:-161)
+        let point5 = CGPoint(x:-25, y:-161)
+        let point6 = CGPoint(x:-355, y:-161)
+        let point7 = CGPoint(x:-380, y:140)
+        let point8 = CGPoint(x:-380, y:-140)
+        let point9 = CGPoint(x:355, y:161)
+        let point10 = CGPoint(x:25, y:161)
+        let point11 = CGPoint(x:-25, y:161)
+        let point12 = CGPoint(x:-355, y:161)
         
         pocket1 = SKSpriteNode(imageNamed: "BlueBall")
         pocket1.size = CGSize(width: 35, height: 30)
@@ -139,21 +135,7 @@ class GameScene: SKScene {
         pocket6.size = CGSize(width: 35, height: 30)
         pocket6.position = CGPoint(x: (-383), y:(161))
         
-//        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
 
-        
-        let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
-
-        for pocket in pockets {
-            pocket.isHidden = false
-        }
-        
-//        let fakeBall = SKSpriteNode(texture: cueBallTexture)
-//        fakeBall.size = CGSize(width: 55, height: 50)
-//        fakeBall.position = CGPoint(x: (383), y:(161))
-//        addChild(fakeBall)
-        
-        
         let wall1 = SKNode()
         wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
 //        wall1.physicsBody?.usesPreciseCollisionDetection = true
@@ -210,8 +192,6 @@ class GameScene: SKScene {
         let blueBallTexture = SKTexture(imageNamed: "BlueBall")
         let cueBallTexture = SKTexture(imageNamed: "oldcueBall")
         let blackBallTexture = SKTexture(imageNamed: "BlueBall")
-
-        
         
         let redBallPositions: [(CGFloat, CGFloat)]  = [
             (transform_x(235), transform_y(-20)),
@@ -383,7 +363,7 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval){
-        
+    
         if gameStarted == true{
             cueStick.zRotation += rotationSpeed
             if let cueBall = cueBall{
@@ -514,7 +494,7 @@ class GameScene: SKScene {
                 chosen = 1
             }
             if numberTwo.contains(touchLocation) {
-                power = 10.0
+                power = 8.0
                 chosen = 2
             }
             if numberThree.contains(touchLocation) {
@@ -533,14 +513,7 @@ class GameScene: SKScene {
                 if power >= 1.0{
                     cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
                     shotCounter += 1
-                }
-            }
-            if backButton.contains(touchLocation) {
-                if let view = self.view as! SKView? {
-                    if let scene = SKScene(fileNamed: "MenuScene") {
-                        scene.scaleMode = .resizeFill
-                        view.presentScene(scene)
-                    }
+                    counter.text = String(shotCounter)
                 }
             }
             if backButton.contains(touchLocation) {
@@ -560,3 +533,25 @@ class GameScene: SKScene {
 }
 
 //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
