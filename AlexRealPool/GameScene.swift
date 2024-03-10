@@ -14,22 +14,30 @@ class Ball: SKSpriteNode {
         let size = CGSize(width:20, height: 20)
         
         super.init(texture: texture, color: .clear, size: size)
-        self.zPosition = 2
+        //    Each instance of the ball class is initialised with a texture (image)
+        //    Each instance also has same defined color (clear), and same circular size
+        
+        self.zPosition = 1
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
+        //      Balls are given values a resitution of 1 so collisions are elastic
         self.physicsBody?.linearDamping = 0.7
-        self.physicsBody?.allowsRotation = false
-        
+        //      Balls are given a value of friction
+
         
     }
     func updateSpeed(){
+//      Ensuring the physics body has a velocity before it is assigned
+//      to prevent errors
         guard let velocity = self.physicsBody?.velocity
         else{
             return
         }
+//      Using pythagoros theorem to calculate the magnitude of velocity
+//        and setting it to zero if sufficently small
         let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
             if speeds < 1 && speeds > 0 {
                 self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
@@ -40,6 +48,7 @@ class Ball: SKSpriteNode {
         fatalError("Error")
     }
 }
+
 
 
 
@@ -79,13 +88,12 @@ class GameScene: SKScene {
     var path: SKSpriteNode!
     var paths: [SKSpriteNode]!
     var rotationSpeed: CGFloat!
-    var shotCounter: Int!
     var counter: SKLabelNode!
     
     
     override func didMove(to view: SKView) {
         
-//      Creating table node
+        //      Creating table node
         
         let table = SKSpriteNode(imageNamed: "PoolTable")
         
@@ -128,83 +136,87 @@ class GameScene: SKScene {
         pocket6.size = CGSize(width: 35, height: 30)
         pocket6.position = CGPoint(x: (-383), y:(161))
         
-
+        
         let wall1 = SKNode()
         wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
-//        wall1.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall1.physicsBody?.usesPreciseCollisionDetection = true
         wall1.physicsBody?.restitution = 1
         wall1.physicsBody?.collisionBitMask = 0b0001
         addChild(wall1)
         
         let wall2 = SKNode()
         wall2.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
-//        wall2.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall2.physicsBody?.usesPreciseCollisionDetection = true
         wall2.physicsBody?.restitution = 1
         wall2.physicsBody?.collisionBitMask = 0b0001
         addChild(wall2)
         
         let wall3 = SKNode()
         wall3.physicsBody = SKPhysicsBody(edgeFrom: point5, to: point6)
-//        wall3.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall3.physicsBody?.usesPreciseCollisionDetection = true
         wall3.physicsBody?.restitution = 1
         wall3.physicsBody?.collisionBitMask = 0b0001
         addChild(wall3)
         
         let wall4 = SKNode()
         wall4.physicsBody = SKPhysicsBody(edgeFrom: point7, to: point8)
-//        wall4.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall4.physicsBody?.usesPreciseCollisionDetection = true
         wall4.physicsBody?.restitution = 1
         wall4.physicsBody?.collisionBitMask = 0b0001
         addChild(wall4)
         
         let wall5 = SKNode()
         wall5.physicsBody = SKPhysicsBody(edgeFrom: point9, to: point10)
-//        wall5.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall5.physicsBody?.usesPreciseCollisionDetection = true
         wall5.physicsBody?.restitution = 1
         wall5.physicsBody?.collisionBitMask = 0b0001
         addChild(wall5)
         
         let wall6 = SKNode()
         wall6.physicsBody = SKPhysicsBody(edgeFrom: point11, to: point12)
-//        wall6.physicsBody?.usesPreciseCollisionDetection = true
+        //        wall6.physicsBody?.usesPreciseCollisionDetection = true
         wall6.physicsBody?.restitution = 1
         wall6.physicsBody?.collisionBitMask = 0b0001
         addChild(wall6)
         
-
+        
         let redBallTexture = SKTexture(imageNamed: "redBall")
         let blueBallTexture = SKTexture(imageNamed: "BlueBall")
-        let cueBallTexture = SKTexture(imageNamed: "oldcueBall")
+        let cueBallTexture = SKTexture(imageNamed: "cueBall")
         let blackBallTexture = SKTexture(imageNamed: "BlueBall")
         
+        
+        //      Red Ball positions for the break
         let redBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -20),
-            (235, 20),
-            (215, -10),
-            (215, 30),
+            (155, -20),
+            (155, 20),
+            (175, -10),
+            (175, 30),
             (195, -20),
             (195, 20),
-            (155, 0)
+            (235, 0)
         ]
-        
+        //      Blue Ball positions for the break
         let blueBallPositions: [(CGFloat, CGFloat)]  = [
-            (235, -40),
-            (235, 0),
-            (215, 40),
-            (215, -30),
-            (195, 10),
-            (195, -10),
-            (155, 10)
+            (155, -40),
+            (155, 0),
+            (155, 40),
+            (175, -30),
+            (175, 10),
+            (215, -10),
+            (215, 10)
         ]
         
+        //      Creating blue balls
         blueBalls = []
         for (x,y) in blueBallPositions {
             blueBall = Ball(texture: blueBallTexture)
             blueBall.position = CGPoint(x: (frame.midX + x), y:(frame.midY + y))
             addChild(blueBall)
             blueBalls.append(blueBall)
+            
         }
-        
+        //      Creating red balls
         redBalls = []
         for (x,y) in redBallPositions {
             redBall = Ball(texture: redBallTexture)
@@ -212,32 +224,31 @@ class GameScene: SKScene {
             addChild(redBall)
             redBalls.append(redBall)
         }
-
-        
+        //      Creating cue ball
         cueBall = Ball(texture: cueBallTexture)
         cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
         cueBall.color = .white
         addChild(cueBall)
         
+        //      Creating black ball
         blackBall = Ball(texture: blackBallTexture)
         blackBall.color = .red
         blackBall.colorBlendFactor = 1
         blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
-    
-        cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
         
-        
+        //      Creating the cue Stick
         let cueStickTexture = SKTexture(imageNamed: "CueStick")
         cueStick = SKSpriteNode(texture: cueStickTexture)
         addChild(cueStick)
-
+        
+        //      Placing it behind the cue ball
         cueStick.position = cueBall.position
         cueStick.zPosition = 0
         cueStick.anchorPoint = CGPoint(x: 1.0, y: 0.5)
         cueStick.size = CGSize(width: 200, height: 150)
-    
         
+        //      Creating right movement button
         let rightTexture = SKTexture(imageNamed: "right")
         rightButton = SKSpriteNode(texture: rightTexture)
         rightButton.zPosition = 2
@@ -245,6 +256,7 @@ class GameScene: SKScene {
         rightButton.position = CGPoint(x: frame.midX + 45, y:frame.midY + 177)
         addChild(rightButton)
         
+        //      Creating left movement button
         leftButton = SKSpriteNode(texture: rightTexture)
         leftButton.zPosition = 2
         leftButton.zRotation = 3.14
@@ -252,13 +264,14 @@ class GameScene: SKScene {
         leftButton.position = CGPoint(x: frame.midX - 45, y:frame.midY + 177)
         addChild(leftButton)
         
-        backButton = SKSpriteNode(texture: rightTexture)
-        backButton.zPosition = 2
-        backButton.zRotation = 4.71
-        backButton.size = CGSize(width: 35, height: 33)
-        backButton.position = CGPoint(x: frame.midX - 320, y:frame.midY + 177)
-        addChild(backButton)
+        //        backButton = SKSpriteNode(texture: rightTexture)
+        //        backButton.zPosition = 2
+        //        backButton.zRotation = 4.71
+        //        backButton.size = CGSize(width: 35, height: 33)
+        //        backButton.position = CGPoint(x: frame.midX - 320, y:frame.midY + 177)
+        //        addChild(backButton)
         
+        //      Creating faster movement buttons
         righterButton = SKSpriteNode(texture: rightTexture)
         righterButton.zPosition = 2
         righterButton.size = CGSize(width: 35, height: 33)
@@ -273,8 +286,7 @@ class GameScene: SKScene {
         addChild(lefterButton)
         
         
-        gameStarted = true
-        
+//      Creating power levels
         numberOne = SKLabelNode(fontNamed: "Helvetica")
         numberOne.text = "1"
         numberOne.fontColor = .black
@@ -282,28 +294,28 @@ class GameScene: SKScene {
         numberOne.fontSize = 35
 
         addChild(numberOne)
-        
+
         numberTwo = SKLabelNode(fontNamed: "Helvetica")
         numberTwo.text = "2"
         numberTwo.fontColor = .black
         numberTwo.position = CGPoint(x: frame.midX + 405, y: frame.midY - 60)
         numberTwo.fontSize = 35
         addChild(numberTwo)
-        
+
         numberThree = SKLabelNode(fontNamed: "Helvetica")
         numberThree.text = "3"
         numberThree.fontColor = .black
         numberThree.position = CGPoint(x: frame.midX + 405, y: frame.midY - 20)
         numberThree.fontSize = 35
         addChild(numberThree)
-        
+
         numberFour = SKLabelNode(fontNamed: "Helvetica")
         numberFour.text = "4"
         numberFour.fontColor = .black
         numberFour.position = CGPoint(x: frame.midX + 405, y: frame.midY + 20)
         numberFour.fontSize = 35
         addChild(numberFour)
-        
+
         numberFive = SKLabelNode(fontNamed: "Helvetica")
         numberFive.text = "5"
         numberFive.fontColor = .black
@@ -311,21 +323,14 @@ class GameScene: SKScene {
         numberFive.fontSize = 35
         addChild(numberFive)
         
-        fire = SKLabelNode(fontNamed: "Impact")
-        fire.text = "Fire"
-        fire.fontColor = .red
-        fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
-        fire.fontSize = 22
-        addChild(fire)
-        
-        shotCounter = 0
-        
-        counter = SKLabelNode(fontNamed: "Helvetica")
-        counter.text = String(shotCounter)
-        counter.fontColor = .blue
-        counter.position = CGPoint(x: frame.midX - 205, y: frame.midY + 170)
-        counter.fontSize = 25
-        addChild(counter)
+        //
+        //        fire = SKLabelNode(fontNamed: "Impact")
+        //        fire.text = "Fire"
+        //        fire.fontColor = .red
+        //        fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
+        //        fire.fontSize = 22
+        //        addChild(fire)
+        //
         
         paths = []
         for i in 0..<15{
@@ -341,15 +346,19 @@ class GameScene: SKScene {
         rotationSpeed = 0
         scoreRed = 0
         scoreBlue = 0
+        gameStarted = true
         
         
-        }
-    
+    }
     
     override func update(_ currentTime: TimeInterval){
-    
+        
         if gameStarted == true{
+            //  Adding the specified rotation to the stick
             cueStick.zRotation += rotationSpeed
+            
+            // If the game has started, the speed of the cue ball is found
+            // and if it is zero, then the speeds of red ball are found, and so forth.
             if let cueBall = cueBall{
                 cueBall.updateSpeed()
                 if cueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
@@ -359,8 +368,10 @@ class GameScene: SKScene {
                             for blueBall in blueBalls {
                                 blueBall.updateSpeed()
                                 if blueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
-                                    cueStick.position = CGPoint(x: cueBall.position.x, y: cueBall.position.y - 2 )
+                                    cueStick.position = cueBall.position
                                     cueStick.isHidden = false
+                                    //  If every ball's speed is found to be 0, the cue Stick
+                                    //  is no longer hidden, otherwise it is kept hiddden
                                     var count = 0.0
                                     let angle = Double(cueStick.zRotation)
                                     for path in paths{
@@ -393,149 +404,149 @@ class GameScene: SKScene {
                     }
                 }
             }
-            if chosen == 1{
-                numberOne.fontColor = .red
-            }
-            else{
-                numberOne.fontColor = .black
-            }
-            if chosen == 2{
-                numberTwo.fontColor = .red
-            }
-            else{
-                numberTwo.fontColor = .black
-            }
-            if chosen == 3{
-                numberThree.fontColor = .red
-            }
-            else{
-                numberThree.fontColor = .black
-            }
-            if chosen == 4{
-                numberFour.fontColor = .red
-            }
-            else{
-                numberFour.fontColor = .black
-            }
-            if chosen == 5{
-                numberFive.fontColor = .red
-            }
-            else{
-                numberFive.fontColor = .black
-            }
-            let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
-
-            for pocket in pockets {
-                for redBall in redBalls {
-                    if redBall.frame.intersects(pocket.frame) {
-                        redBall.isHidden = true
-                        scoreRed += 1
-                        
-                    }
-                }
-                for blueBall in blueBalls {
-                    if blueBall.frame.intersects(pocket.frame) {
-                        blueBall.isHidden = true
-                        scoreBlue += 1
-                    }
-                }
-                if blackBall.frame.intersects(pocket.frame) {
-                    blackBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
-                    if scoreBlue == 7 || scoreRed == 7{
-                        blackBall.isHidden = true
-                    }
-                    else{
-                        blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
-                        print(scoreBlue!)
-                    }
-                }
-                if cueBall.frame.intersects(pocket.frame) {
-                    cueBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
-                    cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
-                }
-            }
-        }
-        
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches{
-            let touchLocation = touch.location(in: self)
-            if leftButton.contains(touchLocation) {
-                rotationSpeed = 0.002
-            }
-            if rightButton.contains(touchLocation) {
-                rotationSpeed = -0.002
-            }
-            if lefterButton.contains(touchLocation) {
-                rotationSpeed = 0.05
-            }
-            if righterButton.contains(touchLocation) {
-                rotationSpeed = -0.05
-            }
-            if numberOne.contains(touchLocation) {
-                power = 3.0
-                chosen = 1
-            }
-            if numberTwo.contains(touchLocation) {
-                power = 8.0
-                chosen = 2
-            }
-            if numberThree.contains(touchLocation) {
-                power = 15.0
-                chosen = 3
-            }
-            if numberFour.contains(touchLocation) {
-                power = 20.0
-                chosen = 4
-            }
-            if numberFive.contains(touchLocation) {
-                power = 25.0
-                chosen = 5
-            }
-            if fire.contains(touchLocation) {
-                if power >= 1.0{
-                    cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
-                    shotCounter += 1
-                    counter.text = String(shotCounter)
-                }
-            }
-            if backButton.contains(touchLocation) {
-                if let view = self.view as! SKView? {
-                    if let scene = SKScene(fileNamed: "MenuScene") {
-                        scene.scaleMode = .resizeFill
-                        view.presentScene(scene)
-                    }
-                }
-            }
         }
     }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        rotationSpeed = 0.0
+//                if chosen == 1{
+//                    numberOne.fontColor = .red
+//                }
+//                else{
+//                    numberOne.fontColor = .black
+//                }
+//                if chosen == 2{
+//                    numberTwo.fontColor = .red
+//                }
+//                else{
+//                    numberTwo.fontColor = .black
+//                }
+//                if chosen == 3{
+//                    numberThree.fontColor = .red
+//                }
+//                else{
+//                    numberThree.fontColor = .black
+//                }
+//                if chosen == 4{
+//                    numberFour.fontColor = .red
+//                }
+//                else{
+//                    numberFour.fontColor = .black
+//                }
+//                if chosen == 5{
+//                    numberFive.fontColor = .red
+//                }
+//                else{
+//                    numberFive.fontColor = .black
+//                }
+//                let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
+//    
+//                for pocket in pockets {
+//                    for redBall in redBalls {
+//                        if redBall.frame.intersects(pocket.frame) {
+//                            redBall.isHidden = true
+//                            scoreRed += 1
+//    
+//                        }
+//                    }
+//                    for blueBall in blueBalls {
+//                        if blueBall.frame.intersects(pocket.frame) {
+//                            blueBall.isHidden = true
+//                            scoreBlue += 1
+//                        }
+//                    }
+//                    if blackBall.frame.intersects(pocket.frame) {
+//                        blackBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
+//                        if scoreBlue == 7 || scoreRed == 7{
+//                            blackBall.isHidden = true
+//                        }
+//                        else{
+//                            blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
+//                            print(scoreBlue!)
+//                        }
+//                    }
+//                    if cueBall.frame.intersects(pocket.frame) {
+//                        cueBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
+//                        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
+//                    }
+//                }
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//          Setting the sensitivity speed for each button
+            for touch in touches{
+                let touchLocation = touch.location(in: self)
+                if leftButton.contains(touchLocation) {
+                    rotationSpeed = 0.002
+                }
+                if rightButton.contains(touchLocation) {
+                    rotationSpeed = -0.002
+                }
+                if lefterButton.contains(touchLocation) {
+                    rotationSpeed = 0.05
+                }
+                if righterButton.contains(touchLocation) {
+                    rotationSpeed = -0.05
+                }
+            }
+            
+            
+//                if numberOne.contains(touchLocation) {
+//                    power = 3.0
+//                    chosen = 1
+//                }
+//                if numberTwo.contains(touchLocation) {
+//                    power = 8.0
+//                    chosen = 2
+//                }
+//                if numberThree.contains(touchLocation) {
+//                    power = 15.0
+//                    chosen = 3
+//                }
+//                if numberFour.contains(touchLocation) {
+//                    power = 20.0
+//                    chosen = 4
+//                }
+//                if numberFive.contains(touchLocation) {
+//                    power = 25.0
+//                    chosen = 5
+//                }
+//                if fire.contains(touchLocation) {
+//                    if power >= 1.0{
+//                        cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
+//                    }
+//                }
+//                if backButton.contains(touchLocation) {
+//                    if let view = self.view as! SKView? {
+//                        if let scene = SKScene(fileNamed: "MenuScene") {
+//                            scene.scaleMode = .resizeFill
+//                            view.presentScene(scene)
+//                        }
+//                    }
+//                }
+//            }
+        }
+        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+            rotationSpeed = 0.0
+        }
+//      Turning off the cue's rotation if the button is let go
     }
-}
+    
 
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
