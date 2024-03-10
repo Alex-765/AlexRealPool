@@ -82,26 +82,19 @@ class GameScene: SKScene {
     var shotCounter: Int!
     var counter: SKLabelNode!
     
-    let screenWidth = UIScreen.main.bounds.height
-    let screenHeight = UIScreen.main.bounds.width
-    
-    
-    func transform_x(_ val: Double) -> Double{
-        return val//*screenWidth/393
-    }
-    
-    func transform_y(_ val: Double) -> Double{
-        return val//*screenHeight/852
-    }
     
     override func didMove(to view: SKView) {
         
-        self.backgroundColor = .black
-        let screenWidth = UIScreen.main.bounds.height
-        let screenHeight = UIScreen.main.bounds.width
+//      Creating table node
         
-        print(screenWidth)
-        print(screenHeight)
+        let table = SKSpriteNode(imageNamed: "PoolTable")
+        
+        table.size = CGSize(width: 852, height: 393)
+        table.position = CGPoint(x: frame.midX, y: frame.midY)
+        table.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        table.zPosition = -1
+        
+        addChild(table)
         
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
@@ -177,15 +170,6 @@ class GameScene: SKScene {
         wall6.physicsBody?.restitution = 1
         wall6.physicsBody?.collisionBitMask = 0b0001
         addChild(wall6)
-
-        let table = SKSpriteNode(imageNamed: "PoolTable")
-        
-        table.size = CGSize(width: 852, height: 393)
-        table.position = CGPoint(x: frame.midX, y: frame.midY)
-        table.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        table.zPosition = -1
-        
-        addChild(table)
         
 
         let redBallTexture = SKTexture(imageNamed: "redBall")
@@ -194,23 +178,23 @@ class GameScene: SKScene {
         let blackBallTexture = SKTexture(imageNamed: "BlueBall")
         
         let redBallPositions: [(CGFloat, CGFloat)]  = [
-            (transform_x(235), transform_y(-20)),
-            (transform_x(235), transform_y(20)),
-            (transform_x(215), transform_y(-10)),
-            (transform_x(215), transform_y(30)),
-            (transform_x(195), transform_y(-20)),
-            (transform_x(195), transform_y(20)),
-            (transform_x(155), transform_y(0))
+            (235, -20),
+            (235, 20),
+            (215, -10),
+            (215, 30),
+            (195, -20),
+            (195, 20),
+            (155, 0)
         ]
         
         let blueBallPositions: [(CGFloat, CGFloat)]  = [
-            (transform_x(235), transform_y(-40)),
-            (transform_x(235), transform_y(0)),
-            (transform_x(235), transform_y(40)),
-            (transform_x(215), transform_y(-30)),
-            (transform_x(215), transform_y(10)),
-            (transform_x(175), transform_y(-10)),
-            (transform_x(175), transform_y(10))
+            (235, -40),
+            (235, 0),
+            (215, 40),
+            (215, -30),
+            (195, 10),
+            (195, -10),
+            (155, 10)
         ]
         
         blueBalls = []
@@ -238,7 +222,7 @@ class GameScene: SKScene {
         blackBall = Ball(texture: blackBallTexture)
         blackBall.color = .red
         blackBall.colorBlendFactor = 1
-        blackBall.position = CGPoint(x: (frame.midX + transform_x(195)), y:(frame.midY))
+        blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
         addChild(blackBall)
     
         cueBall.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0))
