@@ -44,12 +44,47 @@ class Ball: SKSpriteNode {
             }
     }
     
-        required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("Error")
     }
 }
 
+class Number: SKLabelNode {
 
+    //    Each instance of the ball class is initialised with a text and position to be entered
+    init(text: String, position: CGPoint) {
+        super.init()
+        //    Each instance also has same defined font, colour and size
+        self.fontName = "Helvetica"
+        self.fontColor = .black
+        self.fontSize = 35
+        self.text = text
+        self.position = position
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Error")
+    }
+}
+
+class Wall: SKNode {
+
+    //    Each instance of the ball class is initialised with two points to be entered
+    init(start: CGPoint, end: CGPoint) {
+        super.init()
+        //    Each instance has the same physical properites
+        self.physicsBody? = SKPhysicsBody(edgeFrom: start, to: end)
+        self.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.restitution = 1
+        self.physicsBody?.collisionBitMask = 0b0001
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Error")
+    }
+}
 
 
 
@@ -70,11 +105,11 @@ class GameScene: SKScene {
     var backButton: SKSpriteNode!
     var powerButton: SKSpriteNode!
     var power: CGFloat!
-    var numberOne: SKLabelNode!
-    var numberTwo: SKLabelNode!
-    var numberThree: SKLabelNode!
-    var numberFour: SKLabelNode!
-    var numberFive: SKLabelNode!
+    var numberOne: Number!
+    var numberTwo: Number!
+    var numberThree: Number!
+    var numberFour: Number!
+    var numberFive: Number!
     var chosen: Int!
     var fire: SKLabelNode!
     var pocket1: SKSpriteNode!
@@ -104,6 +139,8 @@ class GameScene: SKScene {
         
         addChild(table)
         
+        
+//      Points of the edges of the cushions
         let point1 = CGPoint(x:380, y:140)
         let point2 = CGPoint(x:380, y:-140)
         let point3 = CGPoint(x:355, y:-161)
@@ -117,6 +154,7 @@ class GameScene: SKScene {
         let point11 = CGPoint(x:-25, y:161)
         let point12 = CGPoint(x:-355, y:161)
         
+//      Creating the pockets
         pocket1 = SKSpriteNode(imageNamed: "BlueBall")
         pocket1.size = CGSize(width: 35, height: 30)
         pocket1.position = CGPoint(x: (383), y:(-161))
@@ -136,47 +174,23 @@ class GameScene: SKScene {
         pocket6.size = CGSize(width: 35, height: 30)
         pocket6.position = CGPoint(x: (-383), y:(161))
         
-        
-        let wall1 = SKNode()
-        wall1.physicsBody = SKPhysicsBody(edgeFrom: point1, to: point2)
-        //        wall1.physicsBody?.usesPreciseCollisionDetection = true
-        wall1.physicsBody?.restitution = 1
-        wall1.physicsBody?.collisionBitMask = 0b0001
+//      Creating the cushions using previous points
+        let wall1 = Wall(start: point1, end: point2)
         addChild(wall1)
         
-        let wall2 = SKNode()
-        wall2.physicsBody = SKPhysicsBody(edgeFrom: point3, to: point4)
-        //        wall2.physicsBody?.usesPreciseCollisionDetection = true
-        wall2.physicsBody?.restitution = 1
-        wall2.physicsBody?.collisionBitMask = 0b0001
+        let wall2 = Wall(start: point3, end: point4)
         addChild(wall2)
-        
-        let wall3 = SKNode()
-        wall3.physicsBody = SKPhysicsBody(edgeFrom: point5, to: point6)
-        //        wall3.physicsBody?.usesPreciseCollisionDetection = true
-        wall3.physicsBody?.restitution = 1
-        wall3.physicsBody?.collisionBitMask = 0b0001
+    
+        let wall3 = Wall(start: point5, end: point6)
         addChild(wall3)
         
-        let wall4 = SKNode()
-        wall4.physicsBody = SKPhysicsBody(edgeFrom: point7, to: point8)
-        //        wall4.physicsBody?.usesPreciseCollisionDetection = true
-        wall4.physicsBody?.restitution = 1
-        wall4.physicsBody?.collisionBitMask = 0b0001
+        let wall4 = Wall(start: point7, end: point8)
         addChild(wall4)
         
-        let wall5 = SKNode()
-        wall5.physicsBody = SKPhysicsBody(edgeFrom: point9, to: point10)
-        //        wall5.physicsBody?.usesPreciseCollisionDetection = true
-        wall5.physicsBody?.restitution = 1
-        wall5.physicsBody?.collisionBitMask = 0b0001
+        let wall5 = Wall(start: point9, end: point10)
         addChild(wall5)
         
-        let wall6 = SKNode()
-        wall6.physicsBody = SKPhysicsBody(edgeFrom: point11, to: point12)
-        //        wall6.physicsBody?.usesPreciseCollisionDetection = true
-        wall6.physicsBody?.restitution = 1
-        wall6.physicsBody?.collisionBitMask = 0b0001
+        let wall6 = Wall(start: point11, end: point12)
         addChild(wall6)
         
         
@@ -287,53 +301,29 @@ class GameScene: SKScene {
         
         
 //      Creating power levels
-        numberOne = SKLabelNode(fontNamed: "Helvetica")
-        numberOne.text = "1"
-        numberOne.fontColor = .black
-        numberOne.position = CGPoint(x: frame.midX + 405, y: frame.midY - 105)
-        numberOne.fontSize = 35
-
+        numberOne = Number(text: "1", position: CGPoint(x: frame.midX + 405, y: frame.midY - 105))
         addChild(numberOne)
-
-        numberTwo = SKLabelNode(fontNamed: "Helvetica")
-        numberTwo.text = "2"
-        numberTwo.fontColor = .black
-        numberTwo.position = CGPoint(x: frame.midX + 405, y: frame.midY - 60)
-        numberTwo.fontSize = 35
+        numberTwo = Number(text: "2", position: CGPoint(x: frame.midX + 405, y: frame.midY - 60))
         addChild(numberTwo)
-
-        numberThree = SKLabelNode(fontNamed: "Helvetica")
-        numberThree.text = "3"
-        numberThree.fontColor = .black
-        numberThree.position = CGPoint(x: frame.midX + 405, y: frame.midY - 20)
-        numberThree.fontSize = 35
+        numberThree = Number(text: "3", position: CGPoint(x: frame.midX + 405, y: frame.midY - 20))
         addChild(numberThree)
-
-        numberFour = SKLabelNode(fontNamed: "Helvetica")
-        numberFour.text = "4"
-        numberFour.fontColor = .black
-        numberFour.position = CGPoint(x: frame.midX + 405, y: frame.midY + 20)
-        numberFour.fontSize = 35
+        numberFour = Number(text: "4", position: CGPoint(x: frame.midX + 405, y: frame.midY + 20))
         addChild(numberFour)
-
-        numberFive = SKLabelNode(fontNamed: "Helvetica")
-        numberFive.text = "5"
-        numberFive.fontColor = .black
-        numberFive.position = CGPoint(x: frame.midX + 405, y: frame.midY + 60)
-        numberFive.fontSize = 35
+        numberFive = Number(text: "5", position: CGPoint(x: frame.midX + 405, y: frame.midY + 60))
         addChild(numberFive)
         
-        //
-        //        fire = SKLabelNode(fontNamed: "Impact")
-        //        fire.text = "Fire"
-        //        fire.fontColor = .red
-        //        fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
-        //        fire.fontSize = 22
-        //        addChild(fire)
-        //
+//      Creating the fire button
         
+        fire = SKLabelNode(fontNamed: "Impact")
+        fire.text = "Fire"
+        fire.fontColor = .red
+        fire.position = CGPoint(x: frame.midX + 405, y: frame.midY + 105)
+        fire.fontSize = 22
+        addChild(fire)
+
+//      Creating a path of many little red dots
         paths = []
-        for i in 0..<15{
+        for _ in 0..<15{
             path = SKSpriteNode(imageNamed: "redBall")
             path.size = CGSize(width: 5, height: 5)
             path.zPosition = 0
@@ -367,11 +357,12 @@ class GameScene: SKScene {
                         if redBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
                             for blueBall in blueBalls {
                                 blueBall.updateSpeed()
+                                //  If every ball's speed is found to be 0, the cue Stick
+                                //  is no longer hidden, otherwise it is kept hiddden
                                 if blueBall.physicsBody?.velocity == CGVector(dx: 0, dy: 0){
                                     cueStick.position = cueBall.position
                                     cueStick.isHidden = false
-                                    //  If every ball's speed is found to be 0, the cue Stick
-                                    //  is no longer hidden, otherwise it is kept hiddden
+//                                  The path is added in the direction of the cue
                                     var count = 0.0
                                     let angle = Double(cueStick.zRotation)
                                     for path in paths{
@@ -379,7 +370,7 @@ class GameScene: SKScene {
                                         path.position = CGPoint(x:cueStick.position.x + (cos(angle) * count) , y: cueStick.position.y + (sin(angle) * count) + 2.0)
                                         path.isHidden = false
                                     }
-                                    
+
                                 }
                                 else{
                                     cueStick.isHidden = true
@@ -403,39 +394,37 @@ class GameScene: SKScene {
                         path.isHidden = true
                     }
                 }
-            }
-        }
-    }
-//                if chosen == 1{
-//                    numberOne.fontColor = .red
-//                }
-//                else{
-//                    numberOne.fontColor = .black
-//                }
-//                if chosen == 2{
-//                    numberTwo.fontColor = .red
-//                }
-//                else{
-//                    numberTwo.fontColor = .black
-//                }
-//                if chosen == 3{
-//                    numberThree.fontColor = .red
-//                }
-//                else{
-//                    numberThree.fontColor = .black
-//                }
-//                if chosen == 4{
-//                    numberFour.fontColor = .red
-//                }
-//                else{
-//                    numberFour.fontColor = .black
-//                }
-//                if chosen == 5{
-//                    numberFive.fontColor = .red
-//                }
-//                else{
-//                    numberFive.fontColor = .black
-//                }
+//              Making the specified button highlighted
+                if chosen == 1{
+                    numberOne.fontColor = .red
+                }
+                else{
+                    numberOne.fontColor = .black
+                }
+                if chosen == 2{
+                    numberTwo.fontColor = .red
+                }
+                else{
+                    numberTwo.fontColor = .black
+                }
+                if chosen == 3{
+                    numberThree.fontColor = .red
+                }
+                else{
+                    numberThree.fontColor = .black
+                }
+                if chosen == 4{
+                    numberFour.fontColor = .red
+                }
+                else{
+                    numberFour.fontColor = .black
+                }
+                if chosen == 5{
+                    numberFive.fontColor = .red
+                }
+                else{
+                    numberFive.fontColor = .black
+                }
 //                let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
 //    
 //                for pocket in pockets {
@@ -467,6 +456,9 @@ class GameScene: SKScene {
 //                        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
 //                    }
 //                }
+            }
+        }
+    }
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //          Setting the sensitivity speed for each button
             for touch in touches{
@@ -483,34 +475,35 @@ class GameScene: SKScene {
                 if righterButton.contains(touchLocation) {
                     rotationSpeed = -0.05
                 }
-            }
             
-            
-//                if numberOne.contains(touchLocation) {
-//                    power = 3.0
-//                    chosen = 1
-//                }
-//                if numberTwo.contains(touchLocation) {
-//                    power = 8.0
-//                    chosen = 2
-//                }
-//                if numberThree.contains(touchLocation) {
-//                    power = 15.0
-//                    chosen = 3
-//                }
-//                if numberFour.contains(touchLocation) {
-//                    power = 20.0
-//                    chosen = 4
-//                }
-//                if numberFive.contains(touchLocation) {
-//                    power = 25.0
-//                    chosen = 5
-//                }
-//                if fire.contains(touchLocation) {
-//                    if power >= 1.0{
-//                        cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
-//                    }
-//                }
+//             Outlining which button is chosen, and thus its power
+                if numberOne.contains(touchLocation) {
+                    power = 3.0
+                    chosen = 1
+                }
+                if numberTwo.contains(touchLocation) {
+                    power = 8.0
+                    chosen = 2
+                }
+                if numberThree.contains(touchLocation) {
+                    power = 15.0
+                    chosen = 3
+                }
+                if numberFour.contains(touchLocation) {
+                    power = 20.0
+                    chosen = 4
+                }
+                if numberFive.contains(touchLocation) {
+                    power = 25.0
+                    chosen = 5
+                }
+
+//             If the fire button is pressed, an impulse is applied to the ball
+                if fire.contains(touchLocation) {
+                    if power >= 1.0{
+                        cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
+                    }
+                }
 //                if backButton.contains(touchLocation) {
 //                    if let view = self.view as! SKView? {
 //                        if let scene = SKScene(fileNamed: "MenuScene") {
@@ -519,7 +512,7 @@ class GameScene: SKScene {
 //                        }
 //                    }
 //                }
-//            }
+            }
         }
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             rotationSpeed = 0.0
