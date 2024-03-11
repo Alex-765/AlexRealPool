@@ -74,7 +74,7 @@ class Wall: SKNode {
     init(start: CGPoint, end: CGPoint) {
         super.init()
         //    Each instance has the same physical properites
-        self.physicsBody? = SKPhysicsBody(edgeFrom: start, to: end)
+        self.physicsBody = SKPhysicsBody(edgeFrom: start, to: end)
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.restitution = 1
         self.physicsBody?.collisionBitMask = 0b0001
@@ -123,7 +123,8 @@ class GameScene: SKScene {
     var path: SKSpriteNode!
     var paths: [SKSpriteNode]!
     var rotationSpeed: CGFloat!
-    var counter: SKLabelNode!
+    var counterRed: SKLabelNode!
+    var counterBlue: SKLabelNode!
     
     
     override func didMove(to view: SKView) {
@@ -278,14 +279,15 @@ class GameScene: SKScene {
         leftButton.position = CGPoint(x: frame.midX - 45, y:frame.midY + 177)
         addChild(leftButton)
         
-        //        backButton = SKSpriteNode(texture: rightTexture)
-        //        backButton.zPosition = 2
-        //        backButton.zRotation = 4.71
-        //        backButton.size = CGSize(width: 35, height: 33)
-        //        backButton.position = CGPoint(x: frame.midX - 320, y:frame.midY + 177)
-        //        addChild(backButton)
+//      Creating a back button
+        backButton = SKSpriteNode(texture: rightTexture)
+        backButton.zPosition = 2
+        backButton.zRotation = 4.71
+        backButton.size = CGSize(width: 35, height: 33)
+        backButton.position = CGPoint(x: frame.midX - 320, y:frame.midY + 177)
+        addChild(backButton)
         
-        //      Creating faster movement buttons
+//      Creating faster movement buttons
         righterButton = SKSpriteNode(texture: rightTexture)
         righterButton.zPosition = 2
         righterButton.size = CGSize(width: 35, height: 33)
@@ -331,12 +333,28 @@ class GameScene: SKScene {
             path.isHidden = true
             paths.append(path)
         }
-        
+
+//      Declaring variables to default values
         power = 0
         rotationSpeed = 0
-        scoreRed = 0
-        scoreBlue = 0
+        scoreRed = 7
+        scoreBlue = 7
         gameStarted = true
+        
+//      Creating Score counters
+        counterRed = SKLabelNode(fontNamed: "Helvetica")
+        counterRed.text = String(scoreRed)
+        counterRed.fontColor = .red
+        counterRed.position = CGPoint(x: frame.midX - 205, y: frame.midY + 170)
+        counterRed.fontSize = 24
+        addChild(counterRed)
+        
+        counterBlue = SKLabelNode(fontNamed: "Helvetica")
+        counterBlue.text = String(scoreRed)
+        counterBlue.fontColor = .blue
+        counterBlue.position = CGPoint(x: frame.midX - 185, y: frame.midY + 170)
+        counterBlue.fontSize = 24
+        addChild(counterBlue)
         
         
     }
@@ -367,7 +385,8 @@ class GameScene: SKScene {
                                     let angle = Double(cueStick.zRotation)
                                     for path in paths{
                                         count += 50
-                                        path.position = CGPoint(x:cueStick.position.x + (cos(angle) * count) , y: cueStick.position.y + (sin(angle) * count) + 2.0)
+                                        path.position = CGPoint(x:cueStick.position.x + (cos(angle) * count)
+                                        ,y: cueStick.position.y + (sin(angle) * count) + 2.0)
                                         path.isHidden = false
                                     }
 
@@ -425,37 +444,37 @@ class GameScene: SKScene {
                 else{
                     numberFive.fontColor = .black
                 }
-//                let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
-//    
-//                for pocket in pockets {
-//                    for redBall in redBalls {
-//                        if redBall.frame.intersects(pocket.frame) {
-//                            redBall.isHidden = true
-//                            scoreRed += 1
-//    
-//                        }
-//                    }
-//                    for blueBall in blueBalls {
-//                        if blueBall.frame.intersects(pocket.frame) {
-//                            blueBall.isHidden = true
-//                            scoreBlue += 1
-//                        }
-//                    }
-//                    if blackBall.frame.intersects(pocket.frame) {
-//                        blackBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
-//                        if scoreBlue == 7 || scoreRed == 7{
-//                            blackBall.isHidden = true
-//                        }
-//                        else{
-//                            blackBall.position = CGPoint(x: (frame.midX + 195), y:(frame.midY))
-//                            print(scoreBlue!)
-//                        }
-//                    }
-//                    if cueBall.frame.intersects(pocket.frame) {
-//                        cueBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
-//                        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
-//                    }
-//                }
+                let pockets: [SKSpriteNode] = [pocket1, pocket2, pocket3, pocket4, pocket5, pocket6]
+//              If a red ball enters the pocket, it is hidden out of frame,and the score decreased
+                for pocket in pockets {
+                    for redBall in redBalls {
+                        if redBall.frame.intersects(pocket.frame) {
+                            redBall.position = CGPoint(x: 10000,y: 10000)
+                            redBall.isHidden = true
+                            scoreRed -= 1
+                            counterRed.text = String(scoreRed)
+    
+                        }
+                    }
+//               If a blue ball enters the pocket, it is hidden out of frame,and the score decreased
+                    for blueBall in blueBalls {
+                        if blueBall.frame.intersects(pocket.frame) {
+                            blueBall.position = CGPoint(x: 10000,y: 10000)
+                            blueBall.isHidden = true
+                            scoreBlue -= 1
+                            counterBlue.text = String(scoreBlue)
+                        }
+                    }
+//               If a black ball enters the pocket, it is hidden
+                    if blackBall.frame.intersects(pocket.frame) {
+                        blackBall.isHidden = true
+                    }
+//               If a white ball enters the pocket, it is spotted back in the middle
+                    if cueBall.frame.intersects(pocket.frame) {
+                        cueBall.physicsBody?.velocity = CGVector(dx:0, dy: 0)
+                        cueBall.position = CGPoint(x: (frame.midX - 195), y:(frame.midY))
+                    }
+                }
             }
         }
     }
@@ -500,18 +519,19 @@ class GameScene: SKScene {
 
 //             If the fire button is pressed, an impulse is applied to the ball
                 if fire.contains(touchLocation) {
-                    if power >= 1.0{
-                        cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, dy: sin(cueStick.zRotation) * power!))
+                    if power >= 1.0 && cueStick.isHidden == false{
+                        cueBall.physicsBody?.applyImpulse(CGVector(dx: cos(cueStick.zRotation) * power!, 
+                                                                   dy: sin(cueStick.zRotation) * power!))
                     }
                 }
-//                if backButton.contains(touchLocation) {
-//                    if let view = self.view as! SKView? {
-//                        if let scene = SKScene(fileNamed: "MenuScene") {
-//                            scene.scaleMode = .resizeFill
-//                            view.presentScene(scene)
-//                        }
-//                    }
-//                }
+                if backButton.contains(touchLocation) {
+                    if let view = self.view {
+                        if let scene = SKScene(fileNamed: "MenuScene") {
+                            scene.scaleMode = .resizeFill
+                            view.presentScene(scene)
+                        }
+                    }
+                }
             }
         }
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
