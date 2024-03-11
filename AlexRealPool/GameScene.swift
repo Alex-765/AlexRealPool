@@ -36,7 +36,7 @@ class Ball: SKSpriteNode {
         else{
             return
         }
-//      Using pythagoros theorem to calculate the magnitude of velocity
+//      Using pythagoras theorem to calculate the magnitude of velocity
 //        and setting it to zero if sufficently small
         let speeds = sqrt(pow(velocity.dx, 2.0) + pow(velocity.dy, 2.0))
             if speeds < 1 && speeds > 0 {
